@@ -1,3 +1,17 @@
-<p>
-  register works!
-</p>
+<div class="register-box center-item">
+  <div class="register-here true-center">
+    <div class="inputs">
+      <div class="register-inputs">
+        <div class="register-input center-item register-input-back">Code</div>
+        <input type="text" name="code" id="" class="register-input center-item" placeholder="Code" (focus)="loginFocusIn($event)" (focusout)="loginFocusOut($event)">
+      </div>
+      <div class="register-inputs">
+        <div class="register-input center-item register-input-back">Username</div>
+        <input type="text" name="username" id="" class="register-input center-item" placeholder="Username" (focus)="loginFocusIn($event)" (focusout)="loginFocusOut($event)">
+      </div>
+    </div>
+    <div class="submits">
+      <input type="button" value="Lets Go!" class="register-button center-item">
+    </div>
+  </div>
+</div>

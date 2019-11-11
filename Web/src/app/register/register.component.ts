@@ -12,4 +12,16 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
+  loginFocusIn ( event ) {
+    var element:HTMLInputElement = event.target;
+    element.style.setProperty ( "background-color", "transparent" );
+  }
+
+  loginFocusOut ( event ) {
+    var element:HTMLInputElement = event.target;
+    if ( !element.value ) {
+      element.style.setProperty ( "background-color", "white" );
+    }
+  }
+
 }

@@ -3,3 +3,19 @@
 body {
     margin: 0px;
 }
+
+.center-item {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.vertical-center {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.true-center {
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
