@@ -7,9 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GamePageComponent implements OnInit {
 
-  constructor() { }
+  cardInHand1:Array<string>;
+
+  constructor() { 
+    this.cardInHand1 = [ "01DE001", "01DE001", "01DE001" ];
+  }
 
   ngOnInit() {
+    this.renderHand ( this.cardInHand1 );
+  }
+
+  renderHand ( cards:Array<string> )
+  {
+    var hand:HTMLElement = document.getElementById ( "player-hand-1" );
+    for ( var card in cards )
+    {
+
+    }
   }
 
 }

@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { GameAreaComponent } from './game-area/game-area.component';
 import { GamePageComponent } from './game-page/game-page.component';
+import { TestRenderComponent } from './test-render/test-render.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { GamePageComponent } from './game-page/game-page.component';
     HomeComponent,
     RegisterComponent,
     GameAreaComponent,
-    GamePageComponent
+    GamePageComponent,
+    TestRenderComponent
   ],
   imports: [
     BrowserModule,

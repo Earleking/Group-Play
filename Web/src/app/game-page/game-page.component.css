@@ -1,0 +1,12 @@
+.card-img-style {
+    height: 100%;
+    width: 100%;
+}
+
+.hand-cards {
+    list-style: none;
+}
+
+.card-in-hand {
+    display: inline-block;
+}
