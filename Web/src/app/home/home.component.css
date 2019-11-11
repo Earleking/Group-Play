@@ -1,0 +1,7 @@
+.home-body {
+    background: linear-gradient( transparent 60%,#e4e0da );
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    /* position: absolute; */
+}
