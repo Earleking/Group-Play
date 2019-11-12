@@ -25,12 +25,10 @@ export class GamePageComponent implements OnInit {
     this.boardHeight = this.displayedCards [ "Screen" ] [ "ScreenHeight" ];
     this.boardWidth = this.displayedCards [ "Screen" ] [ "ScreenWidth" ];
     this.displayedCards = this.displayedCards [ "Rectangles" ];
-    // this.cardInHand1
   }
 
   ngOnInit() {
     this.sortCards ( );
-    // this.renderHand ( this.cardInHand1 );
   }
 
   sortCards ( ) {
