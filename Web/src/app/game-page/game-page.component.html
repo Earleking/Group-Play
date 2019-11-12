@@ -1,15 +1,21 @@
 <!-- Hand -->
-<div id="player-hand-1">
-  <ul class="hand-cards">
+<div id="player-hand-1" class="player-hand player-1-hand" (mouseover)="handHovered()" (mouseout)="handUnHovered()">
+  <ul id="hand-list-1" class="hand-cards">
     <!-- Each card -->
-    <li class="card-in-hand" [ngStyle]="{'width':'75px', 'height': '100px'}">
-      <img class="card-img-style" src="assets/cards/01DE001.png" alt="">
-    </li>
-    <li class="card-in-hand" [ngStyle]="{'width':'75px', 'height': '100px'}">
-      <img class="card-img-style" src="assets/cards/01DE001.png" alt="">
-    </li>
-    <li class="card-in-hand" [ngStyle]="{'width':'75px', 'height': '100px'}">
-      <img class="card-img-style" src="assets/cards/01DE001.png" alt="">
+    <li *ngFor="let card of cardInHand1" 
+        class="card-in-hand"
+        [ngStyle]="{'width':  card [ 'Width' ] + 'px',
+                    'height': card [ 'Height' ] + 'px',
+                    'left':   card [ 'TopLeftX' ] + 'px'}">
+      <img  class="card-img-style"
+            src="assets/cards/{{card['CardCode']}}.png"
+            (mouseover)="cardHovered ( $event )"
+            (mouseout) ="cardUnHovered ( $event )">
     </li>
   </ul>
 </div>
+  
+
+<!-- <div cdkDropList [cdkDropListData]="list" *ngFor="let list of lists" (cdkDropListDropped)="drop($event)">
+  <div cdkDrag [cdkDragData]="item" *ngFor="let item of list"></div>
+</div> -->

@@ -9,6 +9,7 @@ import { RegisterComponent } from './register/register.component';
 import { GameAreaComponent } from './game-area/game-area.component';
 import { GamePageComponent } from './game-page/game-page.component';
 import { TestRenderComponent } from './test-render/test-render.component';
+import { CardComponent } from './card/card.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TestRenderComponent } from './test-render/test-render.component';
     RegisterComponent,
     GameAreaComponent,
     GamePageComponent,
-    TestRenderComponent
+    TestRenderComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
