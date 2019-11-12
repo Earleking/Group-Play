@@ -68,40 +68,6 @@ export class GamePageComponent implements OnInit {
     }
   }
 
-  renderHand ( cards:Array<Map<string, any>> )
-  {
-    
-    var hand:HTMLElement = document.getElementById ( "hand-list-1" );
-
-    // As you add more cards to your hand they overlap. Simulate that. 
-    var overlap:number = 0;
-
-    // for ( var card of cards )
-    // {
-    //   var cardCode:string = card [ "CardCode" ];
-    //   // Create card
-    //   var imgElement = document.createElement ( "img" );
-    //   imgElement.src = `assets/cards/${cardCode}.png`;
-    //   this.renderer.addClass ( imgElement, "card-img-style" );
-    //   this.renderer.addClass ( imgElement, "usable" );
-
-    //   var liElement = document.createElement ( "li" );
-    //   this.renderer.addClass ( liElement, "card-in-hand" );
-
-    //   liElement.style.width = `${card [ "Width" ]}px`;
-    //   liElement.style.height = `${card [ "Height" ]}px`;
-    //   liElement.style.left = `${ card [ "TopLeftX" ] }px`;
-    //   liElement.appendChild ( imgElement );
-    //   hand.appendChild ( liElement );
-    // }
-
-    for ( var card of cards )
-    {
-      var cardCode:string = card [ "CardCode" ];
-      var x = this.componentFactory.resolveComponentFactory ( CardComponent );
-      // hand.
-    }
-  }
   handHovered ( )
   {
     console.log ( "enter" );

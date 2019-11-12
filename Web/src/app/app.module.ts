@@ -10,6 +10,9 @@ import { GameAreaComponent } from './game-area/game-area.component';
 import { GamePageComponent } from './game-page/game-page.component';
 import { TestRenderComponent } from './test-render/test-render.component';
 import { CardComponent, DraggableDirective } from './card/card.component';
+import { HandComponent } from './hand/hand.component';
+import { BenchComponent } from './bench/bench.component';
+import { BattleComponent } from './battle/battle.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { CardComponent, DraggableDirective } from './card/card.component';
     GamePageComponent,
     TestRenderComponent,
     CardComponent,
-    DraggableDirective
+    DraggableDirective,
+    HandComponent,
+    BenchComponent,
+    BattleComponent
   ],
   imports: [
     BrowserModule,
