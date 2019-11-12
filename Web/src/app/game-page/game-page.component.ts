@@ -16,14 +16,6 @@ export class GamePageComponent implements OnInit {
   boardWidth:number;
   displayedCards:Array< Map < string, any> >;
 
-  cardInHand1 :Array< Map < string, any> > = [];
-  cardInHand2 :Array< Map < string, any> > = [];
-  cardOnBench1:Array< Map < string, any> > = [];
-  cardOnBench2:Array< Map < string, any> > = [];
-  cardOnBoard1:Array< Map < string, any> > = [];
-  cardOnBoard2:Array< Map < string, any> > = [];
-  spells      :Array< Map < string, any> > = [];
-
   isHandHovered:boolean = false;
 
 
