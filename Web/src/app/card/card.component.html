@@ -1,3 +1,9 @@
-<p>
-  card works!
-</p>
+<li class="card-in-hand"
+    [ngStyle]="{'width':  card [ 'Width' ] + 'px',
+                'height': card [ 'Height' ] + 'px',
+                'left':   card [ 'TopLeftX' ] + 'px'}">
+  <img  class="card-img-style"
+        src="assets/cards/{{card['CardCode']}}.png"
+        (mouseover)="cardHovered ( $event )"
+        (mouseout) ="cardUnHovered ( $event )">
+</li>

@@ -108,7 +108,6 @@ export class GamePageComponent implements OnInit {
       // hand.
     }
   }
-
   handHovered ( )
   {
     console.log ( "enter" );
@@ -140,32 +139,5 @@ export class GamePageComponent implements OnInit {
     // Get rid of the px part
     pxValue = pxValue.substr ( 0, pxValue.length - 2 );
     hand.style.top = `970px`
-  }
-
-  cardHovered ( event: MouseEvent )
-  {
-    var cardT = event.target;
-    var card = cardT as HTMLElement;
-    card.style.setProperty ( "transform", "scale(1.35)" );
-    card.style.setProperty ( "z-index", "11" );
-    var t = new Map <string, any>();
-
-    // this.cardInHand1.push ( {
-    //   "CardID": 2134821509,
-    //   "CardCode": "01FR046",
-    //   "TopLeftX": 902,
-    //   "TopLeftY": 598,
-    //   "Width": 115,
-    //   "Height": 115,
-    //   "LocalPlayer": false
-    // } );
-  }
-
-  cardUnHovered ( event:MouseEvent )
-  {
-    var cardT = event.target;
-    var card = cardT as HTMLElement;
-    card.style.setProperty ( "transform", "scale(1)" );
-    card.style.setProperty ( "z-index", "0" );
   }
 }
