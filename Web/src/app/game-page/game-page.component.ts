@@ -1,5 +1,6 @@
 import { Component, OnInit, Renderer, Renderer2, ViewEncapsulation, ComponentFactoryResolver } from '@angular/core';
 import { CardComponent } from '../card/card.component';
+import { CardStore, cardStore } from '../card-store/card-store';
 
 @Component({
   selector: 'app-game-page',
@@ -8,6 +9,8 @@ import { CardComponent } from '../card/card.component';
   encapsulation: ViewEncapsulation.None
 })
 export class GamePageComponent implements OnInit {
+
+  store:CardStore;
 
   boardHeight:number;
   boardWidth:number;
@@ -25,6 +28,7 @@ export class GamePageComponent implements OnInit {
 
 
   constructor( private renderer:Renderer2, private componentFactory:ComponentFactoryResolver ) { 
+    this.store = cardStore;
     this.displayedCards = require ( "src/assets/test.json" );
     this.boardHeight = this.displayedCards [ "Screen" ] [ "ScreenHeight" ];
     this.boardWidth = this.displayedCards [ "Screen" ] [ "ScreenWidth" ];
@@ -44,33 +48,33 @@ export class GamePageComponent implements OnInit {
       var cardY = card [ "TopLeftY" ];
       if ( cardY < this.boardHeight * .1 )
       {
-        this.cardInHand2.push ( card );
+        this.store.cardInHand2.push ( card );
       }
       else if ( cardY < this.boardHeight * .37 )
       {
-        this.cardOnBench2.push ( card );
+        this.store.cardOnBench2.push ( card );
       }
       else if ( cardY < this.boardHeight* .46 )
       {
-        this.cardOnBoard2.push ( card );
+        this.store.cardOnBoard2.push ( card );
       }
       else if ( cardY < this.boardHeight * .57 )
       {
-        this.spells.push ( card );
+        this.store.spells.push ( card );
       }
       else if ( cardY < this.boardHeight * .68 )
       {
-        this.cardOnBoard1.push ( card );
+        this.store.cardOnBoard1.push ( card );
       }
       else if ( cardY < this.boardHeight * .83 )
       {
-        this.cardOnBench1.push ( card );
+        this.store.cardOnBench1.push ( card );
       }
       else
       {
-        console.log ( card );
-        this.cardInHand1.push ( card );
+        this.store.cardInHand1.push ( card );
       }
+      card [ "TopLeftY" ] = 0;
     }
   }
 

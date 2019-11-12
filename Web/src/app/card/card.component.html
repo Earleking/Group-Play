@@ -1,9 +1,16 @@
-<li class="card-in-hand"
-    [ngStyle]="{'width':  card [ 'Width' ] + 'px',
-                'height': card [ 'Height' ] + 'px',
-                'left':   card [ 'TopLeftX' ] + 'px'}">
+<li class="card-style"
+    dragit
+    id="card-{{cardData['TopLeftX']}}"
+    [cardData]='cardData'
+    [ngStyle]="{'width':  cardData [ 'Width' ] + 'px',
+                'height': cardData [ 'Height' ] + 'px',
+                'left':   cardData [ 'TopLeftX' ] + 'px',
+                'top':   cardData [ 'TopLeftY' ] + 'px'}">
   <img  class="card-img-style"
-        src="assets/cards/{{card['CardCode']}}.png"
+        src="assets/cards/{{cardData['CardCode']}}.png"
+        draggable="false"
         (mouseover)="cardHovered ( $event )"
-        (mouseout) ="cardUnHovered ( $event )">
+        (mouseout) ="cardUnHovered ( $event )"
+        (mousedown)="dragStart ( $event )"
+        (mouseup)="dragEnd ( $event )">
 </li>

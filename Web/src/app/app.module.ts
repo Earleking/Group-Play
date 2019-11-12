@@ -9,7 +9,7 @@ import { RegisterComponent } from './register/register.component';
 import { GameAreaComponent } from './game-area/game-area.component';
 import { GamePageComponent } from './game-page/game-page.component';
 import { TestRenderComponent } from './test-render/test-render.component';
-import { CardComponent } from './card/card.component';
+import { CardComponent, DraggableDirective } from './card/card.component';
 
 @NgModule({
   declarations: [
@@ -20,11 +20,15 @@ import { CardComponent } from './card/card.component';
     GameAreaComponent,
     GamePageComponent,
     TestRenderComponent,
-    CardComponent
+    CardComponent,
+    DraggableDirective
   ],
   imports: [
     BrowserModule,
     AppRoutingModule
+  ],
+  exports: [
+    DraggableDirective
   ],
   providers: [],
   bootstrap: [AppComponent]
