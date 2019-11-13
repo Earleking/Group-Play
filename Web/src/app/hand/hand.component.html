@@ -1,3 +1,7 @@
-<p>
-  hand works!
-</p>
+<!-- Hand -->
+<div id="player-hand-1" class="player-hand player-1-hand" (mouseover)="handHovered()" (mouseout)="handUnHovered()">
+  <ul id="hand-list-1" class="hand-cards">
+    <!-- Each card -->
+    <app-card *ngFor="let card of this.store.cardInHand1" [cardData]=card [location]="hand-1"></app-card>
+  </ul>
+</div>

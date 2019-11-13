@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CardStore, cardStore } from '../card-store/card-store';
 
 @Component({
   selector: 'app-bench',
@@ -6,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./bench.component.css']
 })
 export class BenchComponent implements OnInit {
+  store:CardStore = cardStore;
 
-  constructor() { }
+  constructor() { 
+    console.log ( this.store );
+  }
 
   ngOnInit() {
   }

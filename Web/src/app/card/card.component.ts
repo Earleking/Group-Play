@@ -4,6 +4,7 @@ import { CardStore, cardStore } from '../card-store/card-store';
 @Directive ( {selector: '[dragit]'} )
 export class DraggableDirective implements AfterViewInit {
   @Input() cardData;
+  @Input() location:string;
   card:HTMLElement;
   initX:number;
   initY:number;
@@ -58,6 +59,7 @@ export class DraggableDirective implements AfterViewInit {
     }
   }
 }
+
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -65,22 +67,15 @@ export class DraggableDirective implements AfterViewInit {
 })
 export class CardComponent implements AfterViewInit {
   @Input() cardData;
+  @Input() location:string;
   card:HTMLElement;
-  draggable:boolean = true;
-  initX:string;
-  initY:string;
-  curPosX:number;
-  curPosY:number;
 
   constructor() { 
   }
   
   ngAfterViewInit() {
+    console.log ( this.cardData );
     this.card = <HTMLElement> document.getElementById ( `card-${this.cardData [ "TopLeftX" ]}` );
-    this.initX = this.card.style.left;
-    this.initY = this.card.style.top;
-    this.curPosX = Number ( this.initX.substr ( 0, this.initX.length - 2) );
-    this.curPosY = Number ( this.initY.substr ( 0, this.initY.length - 2) );
   }
 
   cardHovered ( event: MouseEvent )
@@ -93,28 +88,5 @@ export class CardComponent implements AfterViewInit {
   {
     this.card.style.setProperty ( "transform", "scale(1)" );
     this.card.style.setProperty ( "z-index", "0" );
-  }
-
-  dragStart ( event:MouseEvent )
-  {
-    if ( this.draggable )
-    {
-      // this.mouseMoveListener.bind ( this );
-      // this.card.addEventListener ( "mousemove", this.mouseMoveListener );
-    }
-  }
-  dragEnd ( event:MouseEvent )
-  {
-    // this.card.removeEventListener ( "mousemove", this.mouseMoveListener );
-  }
-
-  mouseMoveListener ( event:MouseEvent ) {
-    console.log ( "mv" );
-    var cardRef = event.target as HTMLElement;
-    this.curPosX += event.movementX;
-    this.curPosY += event.movementY;
-    this.cardData [ "TopLeftX" ] = this.curPosX;
-    // cardRef.style.left = `${this.curPosX}px`;
-    // cardRef.style.top = `${this.curPosY}px`;
   }
 }

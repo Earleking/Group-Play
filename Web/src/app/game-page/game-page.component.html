@@ -1,12 +1,6 @@
-<!-- Hand -->
-<div id="player-hand-1" class="player-hand player-1-hand" (mouseover)="handHovered()" (mouseout)="handUnHovered()">
-  <ul id="hand-list-1" class="hand-cards">
-    <!-- Each card -->
-    <app-card *ngFor="let card of this.store.cardInHand1" [cardData]=card></app-card>
-  </ul>
-</div>
-  
 
 <!-- <div cdkDropList [cdkDropListData]="list" *ngFor="let list of lists" (cdkDropListDropped)="drop($event)">
   <div cdkDrag [cdkDragData]="item" *ngFor="let item of list"></div>
 </div> -->
+<app-bench></app-bench>
+<app-hand></app-hand>
