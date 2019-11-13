@@ -50,13 +50,24 @@ export class DraggableDirective implements AfterViewInit {
   endDrag ( )
   {
     this.dragging = false;
-    if ( true )
+    if ( this.moveToBench ( ) )
     {
       this.cardData [ "TopLeftX" ] = this.initX;
       this.cardData [ "TopLeftY" ] = this.initY;
       this.curPosX = this.initX;
       this.curPosY = this.initY;
     }
+    else
+    {
+      this.initX = this.curPosX;
+      this.initY = this.curPosY;
+    }
+  }
+
+  moveToBench ( )
+  {
+    this.store.cardOnBench1.push ( this.store.cardInHand1.pop ( ) );
+    return false;
   }
 }
 
