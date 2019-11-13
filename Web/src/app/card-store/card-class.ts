@@ -10,6 +10,10 @@ export class CardClass {
     public Selectable:boolean = false;
     public Dragged:boolean = false;
 
+    public cardType: String;
+    public manaCost: number;
+    public isTargetable: boolean;
+
     populateWithJson ( json ) {
         this.CardID = json [ "CardID" ];
         this.CardCode = json [ "CardCode" ];
