@@ -58,10 +58,20 @@ export class DraggableDirective implements AfterViewInit {
     this.cardData.Dragged = false;
     if ( this.cardData.Location == "hand" )
     {
-      if ( this.moveToBench ( ) )
+      if ( this.canMakeMove ( ) )
       {
-        this.initX = this.curPosX;
-        this.initY = this.curPosY;
+        if ( this.moveToBench ( ) ) 
+        {
+          this.initX = this.curPosX;
+          this.initY = this.curPosY;
+        }
+        else
+        {
+          this.cardData.TopLeftX = this.initX;
+          this.cardData.TopLeftY = this.initY;
+          this.curPosX = this.initX;
+          this.curPosY = this.initY;
+        }
       }
       else
       {
@@ -79,6 +89,11 @@ export class DraggableDirective implements AfterViewInit {
       // this.curPosX = this.initX;
       // this.curPosY = this.initY;
     }
+  }
+
+  canMakeMove ( )
+  {
+    return true;
   }
 
   moveToHand ( )
