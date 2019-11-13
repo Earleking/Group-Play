@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, HostListener, AfterViewInit, Directive } from '@angular/core';
+import { Component, OnInit, Input, HostListener, AfterViewInit, Directive, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { CardStore, cardStore } from '../card-store/card-store';
+import { CardClass } from '../card-store/card-class';
 
 @Directive ( {selector: '[dragit]'} )
 export class DraggableDirective implements AfterViewInit {
-  @Input() cardData;
+  @Input() cardData:CardClass;
   @Input() location:string;
   card:HTMLElement;
   initX:number;
@@ -14,12 +15,15 @@ export class DraggableDirective implements AfterViewInit {
   dragging:boolean = false;
   store:CardStore;
 
+  constructor ( private cd:ChangeDetectorRef ) {
+  }
+
   ngAfterViewInit ( )
   {
     this.store = cardStore;
-    this.card = <HTMLElement> document.getElementById ( `card-${this.cardData [ "TopLeftX" ]}` );
-    this.initX = Number ( this.card.style.left.substr ( 0, this.card.style.left.length - 2) );
-    this.initY = Number ( this.card.style.top.substr ( 0, this.card.style.top.length - 2) );
+    this.card = <HTMLElement> document.getElementById ( `card-${this.cardData.CardID}` );
+    this.initX = this.cardData.TopLeftX;
+    this.initY = this.cardData.TopLeftY;
     this.curPosX = this.initX;
     this.curPosY = this.initY;
   }
@@ -27,46 +31,73 @@ export class DraggableDirective implements AfterViewInit {
   @HostListener ( "mousedown" )
   startDrag ( )
   {
-    console.log ( this.store );
+    this.initX = this.cardData.TopLeftX;
+    this.initY = this.cardData.TopLeftY;
+    this.curPosX = this.initX;
+    this.curPosY = this.initY;
     if ( this.draggable )
     {
-      this.dragging = true;
+      this.cardData.Dragged = true;
     }
   }
 
   
   @HostListener ( "mousemove", ['$event'] )
   dragCard ( event:MouseEvent ) {
-    if ( this.dragging )
+    if ( this.cardData.Dragged )
     {
       this.curPosX += event.movementX;
       this.curPosY += event.movementY;
-      this.cardData [ "TopLeftX" ] = this.curPosX;
-      this.cardData [ "TopLeftY" ] = this.curPosY;
+      this.cardData.TopLeftX = this.curPosX;
+      this.cardData.TopLeftY = this.curPosY;
     }
-    // this.cardData [ "TopLeftX" ] = 20;
   }
   @HostListener ( "mouseup" )
   endDrag ( )
   {
-    this.dragging = false;
-    if ( this.moveToBench ( ) )
+    this.cardData.Dragged = false;
+    if ( this.cardData.Location == "hand" )
     {
-      this.cardData [ "TopLeftX" ] = this.initX;
-      this.cardData [ "TopLeftY" ] = this.initY;
-      this.curPosX = this.initX;
-      this.curPosY = this.initY;
+      if ( this.moveToBench ( ) )
+      {
+        this.initX = this.curPosX;
+        this.initY = this.curPosY;
+      }
+      else
+      {
+        this.cardData.TopLeftX = this.initX;
+        this.cardData.TopLeftY = this.initY;
+        this.curPosX = this.initX;
+        this.curPosY = this.initY;
+      }
     }
     else
     {
-      this.initX = this.curPosX;
-      this.initY = this.curPosY;
+      // IDK what this is
+      this.cardData.TopLeftX = this.initX;
+      this.cardData.TopLeftY = this.initY;
+      // this.curPosX = this.initX;
+      // this.curPosY = this.initY;
     }
+  }
+
+  moveToHand ( )
+  {
+    
+    this.store.cardInHand1.push ( this.store.cardOnBench1.pop ( ) );
   }
 
   moveToBench ( )
   {
-    this.store.cardOnBench1.push ( this.store.cardInHand1.pop ( ) );
+    var id = this.card.id.split ( "-" ) [ 1 ]
+    for ( var i in this.store.cardInHand1 )
+    {
+      if ( id == this.store.cardInHand1[ i ].CardID )
+      {
+        this.store.cardOnBench1.push ( this.store.cardInHand1.splice ( Number ( i ), 1 ) [ 0 ] );
+        return true;
+      }
+    }
     return false;
   }
 }
@@ -77,16 +108,14 @@ export class DraggableDirective implements AfterViewInit {
   styleUrls: ['./card.component.css']
 })
 export class CardComponent implements AfterViewInit {
-  @Input() cardData;
-  @Input() location:string;
+  @Input() cardData:CardClass;
   card:HTMLElement;
 
   constructor() { 
   }
   
   ngAfterViewInit() {
-    console.log ( this.cardData );
-    this.card = <HTMLElement> document.getElementById ( `card-${this.cardData [ "TopLeftX" ]}` );
+    this.card = <HTMLElement> document.getElementById ( `card-${this.cardData.CardID}` );
   }
 
   cardHovered ( event: MouseEvent )

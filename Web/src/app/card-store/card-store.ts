@@ -1,12 +1,14 @@
+import { CardClass } from './card-class';
+
 export class CardStore
 {
-    public cardInHand1 :Array< Map < string, any> > = [];
-    public cardInHand2 :Array< Map < string, any> > = [];
-    public cardOnBench1:Array< Map < string, any> > = [];
-    public cardOnBench2:Array< Map < string, any> > = [];
-    public cardOnBoard1:Array< Map < string, any> > = [];
-    public cardOnBoard2:Array< Map < string, any> > = [];
-    public spells      :Array< Map < string, any> > = [];
+    public cardInHand1 :Array< CardClass > = [];
+    public cardInHand2 :Array< CardClass > = [];
+    public cardOnBench1:Array< CardClass > = [];
+    public cardOnBench2:Array< CardClass > = [];
+    public cardOnBoard1:Array< CardClass > = [];
+    public cardOnBoard2:Array< CardClass > = [];
+    public spells      :Array< CardClass > = [];
 
     // To be finetuned
     public benchSize = {

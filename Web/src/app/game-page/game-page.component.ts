@@ -1,6 +1,7 @@
 import { Component, OnInit, Renderer, Renderer2, ViewEncapsulation, ComponentFactoryResolver } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { CardStore, cardStore } from '../card-store/card-store';
+import { CardClass } from '../card-store/card-class';
 
 @Component({
   selector: 'app-game-page',
@@ -33,35 +34,44 @@ export class GamePageComponent implements OnInit {
     for ( var card of this.displayedCards )
     {
       var cardY = card [ "TopLeftY" ];
+      var cardObj = new CardClass ( );
+      cardObj.populateWithJson ( card );
+      cardObj.TopLeftY = 0;
       if ( cardY < this.boardHeight * .1 )
       {
-        this.store.cardInHand2.push ( card );
+        cardObj.Location = "hand";
+        this.store.cardInHand2.push ( cardObj );
       }
       else if ( cardY < this.boardHeight * .37 )
       {
-        this.store.cardOnBench2.push ( card );
+        cardObj.Location = "bench";
+        this.store.cardOnBench2.push ( cardObj );
       }
       else if ( cardY < this.boardHeight* .46 )
       {
-        this.store.cardOnBoard2.push ( card );
+        cardObj.Location = "battle";
+        this.store.cardOnBoard2.push ( cardObj );
       }
       else if ( cardY < this.boardHeight * .57 )
       {
-        this.store.spells.push ( card );
+        cardObj.Location = "spell";
+        this.store.spells.push ( cardObj );
       }
       else if ( cardY < this.boardHeight * .68 )
       {
-        this.store.cardOnBoard1.push ( card );
+        cardObj.Location = "battle";
+        this.store.cardOnBoard1.push ( cardObj );
       }
       else if ( cardY < this.boardHeight * .83 )
       {
-        this.store.cardOnBench1.push ( card );
+        cardObj.Location = "bench";
+        this.store.cardOnBench1.push ( cardObj );
       }
       else
       {
-        this.store.cardInHand1.push ( card );
+        cardObj.Location = "hand";
+        this.store.cardInHand1.push ( cardObj );
       }
-      card [ "TopLeftY" ] = 0;
     }
   }
 }
