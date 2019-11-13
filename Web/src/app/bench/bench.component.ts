@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { CardStore, cardStore } from '../card-store/card-store';
 
 @Component({
@@ -6,15 +6,21 @@ import { CardStore, cardStore } from '../card-store/card-store';
   templateUrl: './bench.component.html',
   styleUrls: ['./bench.component.css']
 })
-export class BenchComponent implements OnInit {
+export class BenchComponent implements OnInit, OnChanges {
   store:CardStore = cardStore;
-  cardWidth:number = 230;
+  cardWidth:number = this.store.benchSize.width + 20;
 
   constructor() { 
     console.log ( this.store );
   }
   
   ngOnInit() {
+    this.config ( );
+  }
+
+  ngOnChanges ( )
+  {
+    console.log ( "CHEGE" );
     this.config ( );
   }
 
@@ -40,10 +46,18 @@ export class BenchComponent implements OnInit {
 
     for ( var card of this.store.cardOnBench1 )
     {
-      card [ "TopLeftX" ] = cardOffset;
+      if ( card.Dragged == false )
+      {
+        card [ "TopLeftX" ] = cardOffset;
+        card [ "TopLeftY" ] = 0;
+        card [ "Width" ] = this.store.benchSize.width;
+      }
       cardOffset += this.cardWidth;
     }
 
+    setTimeout ( () => {
+      this.config ( );
+    }, 10 );
   }
 
 }
