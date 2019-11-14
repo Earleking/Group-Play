@@ -1,3 +1,5 @@
-<p>
-  battle works!
-</p>
+<div id="player-battle-{{(localPlayer==true)?'1':'2'}}" class="player-battle player-{{(localPlayer==true)?'1':'2'}}-battle">
+  <ul id="battle-list-{{(localPlayer==true)?'1':'2'}}" class="battle-cards">
+    <app-card *ngFor="let card of (localPlayer == true)?this.store.cardOnBoard1:this.store.cardOnBoard2" [cardData]=card></app-card>
+  </ul>
+</div>

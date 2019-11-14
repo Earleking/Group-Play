@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, HostListener, AfterViewInit, Directive, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { CardStore, cardStore } from '../card-store/card-store';
 import { CardClass } from '../card-store/card-class';
+import { stageConstants } from '../card-store/stage-constants';
 
 @Directive ( {selector: '[dragit]'} )
 export class DraggableDirective implements AfterViewInit {
@@ -35,7 +36,7 @@ export class DraggableDirective implements AfterViewInit {
     this.initY = this.cardData.TopLeftY;
     this.curPosX = this.initX;
     this.curPosY = this.initY;
-    if ( this.draggable )
+    if ( this.cardData.Draggable )
     {
       this.cardData.Dragged = true;
     }
@@ -81,6 +82,31 @@ export class DraggableDirective implements AfterViewInit {
         this.curPosY = this.initY;
       }
     }
+    else if ( this.cardData.Location == "bench" )
+    {
+      if ( this.canMakeMove ( ) )
+      {
+        if ( this.moveToBattle ( ) ) 
+        {
+          this.initX = this.cardData.TopLeftX;
+          this.initY = this.cardData.TopLeftY;
+        }
+        else
+        {
+          this.cardData.TopLeftX = this.initX;
+          this.cardData.TopLeftY = this.initY;
+          this.curPosX = this.initX;
+          this.curPosY = this.initY;
+        }
+      }
+      else
+      {
+        this.cardData.TopLeftX = this.initX;
+        this.cardData.TopLeftY = this.initY;
+        this.curPosX = this.initX;
+        this.curPosY = this.initY;
+      }
+    }
     else
     {
       // IDK what this is
@@ -104,12 +130,86 @@ export class DraggableDirective implements AfterViewInit {
 
   moveToBench ( )
   {
-    var id = this.card.id.split ( "-" ) [ 1 ]
-    for ( var i in this.store.cardInHand1 )
+    var id = this.getCardId ( );
+
+    return this.moveCardById ( id, this.store.cardInHand1, this.store.cardOnBench1 );
+  }
+
+  moveToBattle ( )
+  {
+    // we assume all container elements are the same width
+    var enemies = this.store.cardOnBoard2.length;
+    if ( enemies > 0 )
     {
-      if ( id == this.store.cardInHand1[ i ].CardID )
+      // We are moving to defend
+
+      // To find out the section it was dropped into, we check how many cards are in play
+      //  then we divide the width of that section into x number of "sections"
+      //  based on which x you find yourself in, thats where you go. ezpz
+
+      // var sectionSize = stageConstants.battleSize.width / enemies;
+      // var sectionNumber = Math.floor ( this.curPosX / sectionSize );
+      // this.cardData.TopLeftX = stageConstants.battleCardSize.width * sectionNumber;
+      // this.cardData.TopLeftY = 0;
+
+      var distance = 999999;
+      var bestMatchIndex = -1;
+      var bestMatchX = -1;
+      for ( var i in this.store.cardOnBoard2 )
       {
-        this.store.cardOnBench1.push ( this.store.cardInHand1.splice ( Number ( i ), 1 ) [ 0 ] );
+        var xDiff = this.store.cardOnBoard2 [ i ].TopLeftX - this.cardData.TopLeftX;
+        xDiff = Math.abs ( xDiff );
+        if ( xDiff < distance )
+        {
+          // We are getting closer
+          bestMatchIndex = Number ( i );
+          distance = xDiff;
+          bestMatchX = this.store.cardOnBoard2 [ i ].TopLeftX;
+        }
+        else
+        {
+          // Getting futher. Abort
+          break;
+        }
+      }
+
+      if ( bestMatchIndex < 0 )
+      {
+        return false;
+      }
+
+      this.cardData.TopLeftX = bestMatchX;
+      this.cardData.TopLeftY = 0;
+      this.cardData.BattleLocation = bestMatchIndex;
+
+      return this.moveCardById ( this.getCardId ( ), this.store.cardOnBench1, this.store.cardOnBoard1, bestMatchIndex );
+    }
+    else
+    {
+      // We are moving to attack
+    }
+  }
+
+  getCardId ( )
+  {
+    return this.cardData.CardID;
+    // return this.card.id.split ( "-" ) [ 1 ];
+  }
+
+  moveCardById ( id:string, arrayFrom:Array<CardClass>, arrayTo:Array<CardClass>, insertIndex:number = -1 )
+  {
+    for ( var i in arrayFrom )
+    {
+      if ( id == arrayFrom[ i ].CardID )
+      {
+        if ( insertIndex > 0 && insertIndex < arrayTo.length )
+        {
+          arrayTo.splice ( insertIndex, 0, arrayFrom.splice ( Number ( i ), 1 ) [ 0 ] );
+        }
+        else
+        {
+          arrayTo.push ( arrayFrom.splice ( Number ( i ), 1 ) [ 0 ] );
+        }
         return true;
       }
     }

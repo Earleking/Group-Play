@@ -33,6 +33,10 @@ export class GamePageComponent implements OnInit {
     // filter cards into proper arrays yay
     for ( var card of this.displayedCards )
     {
+      if ( card [ "CardCode" ] == "face" )
+      {
+        continue;
+      }
       var cardY = card [ "TopLeftY" ];
       var cardObj = new CardClass ( );
       cardObj.populateWithJson ( card );
@@ -40,21 +44,26 @@ export class GamePageComponent implements OnInit {
       if ( cardY < this.boardHeight * .1 )
       {
         cardObj.Location = "hand";
+        cardObj.CardCode = "cardback";
+        cardObj.Draggable = false;
         this.store.cardInHand2.push ( cardObj );
       }
       else if ( cardY < this.boardHeight * .37 )
       {
         cardObj.Location = "bench";
+        cardObj.Draggable = false;
         this.store.cardOnBench2.push ( cardObj );
       }
       else if ( cardY < this.boardHeight* .46 )
       {
         cardObj.Location = "battle";
+        cardObj.Draggable = false;
         this.store.cardOnBoard2.push ( cardObj );
       }
       else if ( cardY < this.boardHeight * .57 )
       {
         cardObj.Location = "spell";
+        cardObj.Draggable = false;
         this.store.spells.push ( cardObj );
       }
       else if ( cardY < this.boardHeight * .68 )

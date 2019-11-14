@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CardStore, cardStore } from '../card-store/card-store';
 
 @Component({
@@ -7,7 +7,7 @@ import { CardStore, cardStore } from '../card-store/card-store';
   styleUrls: ['./hand.component.css']
 })
 export class HandComponent implements OnInit {
-
+  @Input ( ) localPlayer:boolean;
   store:CardStore = cardStore;
   isHandHovered:boolean = false;
 
@@ -18,23 +18,31 @@ export class HandComponent implements OnInit {
 
   handHovered ( )
   {
-    console.log ( "enter" );
+    if ( false == this.localPlayer )
+    {
+      return;
+    }
+
     if ( this.isHandHovered == true )
     {
       return;
     }
     this.isHandHovered = true;
     var hand:HTMLElement = document.getElementById ( "player-hand-1" );
-    var pxValue = hand.style.top;
+    var pxValue:number ;
 
     // We assume the px value is xxxpx;
     // Get rid of the px part
-    pxValue = pxValue.substr ( 0, pxValue.length - 2 );
-    hand.style.top = `870px`
+    pxValue = Number ( hand.style.top.substr ( 0, hand.style.top.length - 2 ) );
+    hand.style.top = `${pxValue - 100}px`
   }
 
   handUnHovered ( )
   {
+    if ( false == this.localPlayer )
+    {
+      return;
+    }
     if ( this.isHandHovered == false )
     {
       return;

@@ -10,21 +10,6 @@ export class CardStore
     public cardOnBoard2:Array< CardClass > = [];
     public spells      :Array< CardClass > = [];
 
-    // To be finetuned
-    public benchSize = {
-        width: 176,
-        height: 158
-    };
-    public handSize = {
-        width: 127,
-        height: 160
-    }
-    // Battle size is just max width
-    public battleSize = {
-        width: 176,
-        height: 158
-    }
-
 }
 
 export const cardStore = new CardStore ( );

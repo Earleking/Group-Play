@@ -1,7 +1,7 @@
 <!-- Hand -->
-<div id="player-hand-1" class="player-hand player-1-hand" (mouseover)="handHovered()" (mouseout)="handUnHovered()">
-  <ul id="hand-list-1" class="hand-cards">
+<div id="player-hand-{{(localPlayer==true)?'1':'2'}}" class="player-hand player-{{(localPlayer==true)?'1':'2'}}-hand" (mouseover)="handHovered()" (mouseout)="handUnHovered()">
+  <ul id="hand-list-{{(localPlayer==true)?'1':'2'}}" class="hand-cards">
     <!-- Each card -->
-    <app-card *ngFor="let card of this.store.cardInHand1" [cardData]=card></app-card>
+    <app-card *ngFor="let card of (localPlayer == true)?this.store.cardInHand1:this.store.cardInHand2" [cardData]=card></app-card>
   </ul>
 </div>

@@ -1,6 +1,7 @@
-<div id="player-bench-1" class="player-bench player-1-bench">
-  <ul id="bench-list-1" class="bench-cards">
+aa{{localPlayer}}
+<div id="player-bench-{{(localPlayer==true)?'1':'2'}}" class="player-bench player-{{(localPlayer==true)?'1':'2'}}-bench">
+  <ul id="bench-list-{{(localPlayer==true)?'1':'2'}}" class="bench-cards">
     <!-- Each card -->
-    <app-card *ngFor="let card of this.store.cardOnBench1" [cardData]=card></app-card>
+    <app-card *ngFor="let card of (localPlayer == true)?this.store.cardOnBench1:this.store.cardOnBench2" [cardData]=card></app-card>
   </ul>
 </div>
