@@ -22,6 +22,10 @@ export class CardClass {
     // Cards that start on the battle board don't even use this ahhhh
     public BattleLocation:number = -1;
 
+    public cardType: String;
+    public manaCost: number;
+    public isTargetable: boolean;
+
     populateWithJson ( json ) {
         this.CardID = json [ "CardID" ];
         this.CardCode = json [ "CardCode" ];
