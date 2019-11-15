@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CardStore, cardStore } from './card-store/card-store';
-import { CardClass } from './card-store/card-class';
+import { CardClass, CardTypes, newArea, getBattleLaneSlot, isBattleSlotEmpty, getEnemyCardByBattleSlot } from './card-store/card-class';
+import { stageConstants } from './card-store/stage-constants';
+import { CardComponent } from './card/card.component';
 
 @Injectable({
   providedIn: 'root'
@@ -12,49 +14,66 @@ export class DragService {
   constructor() {
   }
 
-  moveCard(card: CardClass, newX: number, newY: number): boolean {
-    let laneNumber = Math.floor(newY / cardStore.benchSize.height); // assuming all sections are same height
-    if (laneNumber > 4 || laneNumber === 0) {
-      return false; // can't place on enemy's side.
-    }
+  // TODO: make another function for targetability?
+  // OH FUCK SPELLS ARE GONNA BE A BITCH 
+
+  moveCard ( card: CardClass ): boolean {    
+    // TODOs:
+    //  Account for game phase
+    //  Refactor out mana into some playerstate holder?
+
     if (!card.LocalPlayer) {
       return false;
     }
 
-    let laneSlot = Math.floor(newX / cardStore.benchSize.width); // the index of the array to put card in
+    let newSection = newArea ( card ); // assuming all sections are same height
 
+    let laneSlot = getBattleLaneSlot ( card ); // the index of the array to put card in
+
+    console.log ( laneSlot );
 
     // Battle array always needs to be size 6 so we can place cards in whatever position
     // The other arrays, we force the order as queues.
-    switch (laneNumber) {
-      case 1:
+    switch ( newSection ) {
+      case "hand":
         // Card in hand, not a spell, putting on bench
-        if (card.Location === "Hand"
-          && card.manaCost < this.mana
-          && card.cardType !== 'Spell'
+        if ( card.Location === "Hand"
+          && card.ManaCost < this.mana
+          && card.CardType != CardTypes.spell
           && cardStore.cardOnBench1.length < this.LANE_CAPACITY) {
           return true;
         }
         break;
-      case 2:
+      case "bench":
         // Attack/Defence Logic
         // Max 6 cards in bench
-        if (card.Location === "Bench"
-          && !cardStore.cardOnBoard1[laneSlot] // slot is empty
-          && cardStore.cardOnBoard1.length < this.LANE_CAPACITY
-          // check opposing cards now.
-          && cardStore.cardOnBoard2[laneSlot]
-          && cardStore.cardOnBoard2[laneSlot].isTargetable) {
+        if ( card.Location === "Bench"
+          && isBattleSlotEmpty ( laneSlot ) // slot is empty
+          && cardStore.cardOnBoard1.length < this.LANE_CAPACITY )
+        {
+          if ( getEnemyCardByBattleSlot ( laneSlot ).isTargetable == true )
+          {
+            return true;
+          }
+          else if ( getEnemyCardByBattleSlot ( laneSlot ).isTargetable == card.isTargetable )
+          {
+            return true;
+          }
+        }
+        break;
+      case "battle":
+        if ( card.Location === "Hand"
+          && card.CardType === CardTypes.spell
+          && card.ManaCost < this.mana) {
           return true;
         }
         break;
-      case 3:
-        if (card.Location === "Hand"
-          && card.cardType === 'Spell'
-          && card.manaCost < this.mana) {
+      case "spell":
+        if ( card.Location == "hand"
+          && card.ManaCost < this.mana )
+        {
           return true;
         }
-        break;
       default:
         break;
     }

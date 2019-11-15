@@ -17,16 +17,28 @@ export class StageConstants
 
     public benchSize = {
         width: 1920,
-        height: 158
+        height: 158,
+        top: {
+            p1: 790,
+            p2: 200
+        }
     };
     public handSize = {
         width: 1920,
-        height: 160
+        height: 160,
+        top: {
+            p1: 970,
+            p2: -125
+        }
     };
     // Battle size is just max width
     public battleSize = {
         width: 1920,
-        height: 158
+        height: 158,
+        top: {
+            p1: 600,
+            p2: 400
+        }
     };
 }
 

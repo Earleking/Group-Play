@@ -1,12 +1,11 @@
 import { Component, OnInit, Input, HostListener, AfterViewInit, Directive, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { CardStore, cardStore } from '../card-store/card-store';
-import { CardClass } from '../card-store/card-class';
+import { CardClass, newArea, getBattleLaneSlot } from '../card-store/card-class';
 import { stageConstants } from '../card-store/stage-constants';
 
 @Directive ( {selector: '[dragit]'} )
 export class DraggableDirective implements AfterViewInit {
   @Input() cardData:CardClass;
-  @Input() location:string;
   card:HTMLElement;
   initX:number;
   initY:number;
@@ -57,75 +56,70 @@ export class DraggableDirective implements AfterViewInit {
   endDrag ( )
   {
     this.cardData.Dragged = false;
-    if ( this.cardData.Location == "hand" )
+    if ( true ) // check if move is legal here
     {
-      if ( this.canMakeMove ( ) )
+      if ( this.cardData.Location == "hand" )
       {
-        if ( this.moveToBench ( ) ) 
+        console.log ( newArea ( this.cardData ) );
+        if ( newArea ( this.cardData ) == "bench" )
         {
-          this.initX = this.curPosX;
-          this.initY = this.curPosY;
+          if ( this.moveToBench ( ) ) 
+          {
+            this.finalizeMove ( );
+          }
+          else
+          {
+            this.resetCard ( );
+          }
         }
-        else
+      }
+      else if ( this.cardData.Location == "bench" )
+      {
+        if ( newArea ( this.cardData ) == "battle" )
         {
-          this.cardData.TopLeftX = this.initX;
-          this.cardData.TopLeftY = this.initY;
-          this.curPosX = this.initX;
-          this.curPosY = this.initY;
+          if ( this.moveToBattle ( ) )
+          {
+            this.finalizeMove ( );
+          }
+          else
+          {
+            this.resetCard ( );
+          }
         }
+      }
+      else if ( this.cardData.Location == "battle" )
+      {
+        // I don't think you can move these cards
+        this.resetCard ( );
       }
       else
       {
-        this.cardData.TopLeftX = this.initX;
-        this.cardData.TopLeftY = this.initY;
-        this.curPosX = this.initX;
-        this.curPosY = this.initY;
-      }
-    }
-    else if ( this.cardData.Location == "bench" )
-    {
-      if ( this.canMakeMove ( ) )
-      {
-        if ( this.moveToBattle ( ) ) 
-        {
-          this.initX = this.cardData.TopLeftX;
-          this.initY = this.cardData.TopLeftY;
-        }
-        else
-        {
-          this.cardData.TopLeftX = this.initX;
-          this.cardData.TopLeftY = this.initY;
-          this.curPosX = this.initX;
-          this.curPosY = this.initY;
-        }
-      }
-      else
-      {
-        this.cardData.TopLeftX = this.initX;
-        this.cardData.TopLeftY = this.initY;
-        this.curPosX = this.initX;
-        this.curPosY = this.initY;
+        // IDK what this is
+        this.resetCard ( );
       }
     }
     else
     {
-      // IDK what this is
-      this.cardData.TopLeftX = this.initX;
-      this.cardData.TopLeftY = this.initY;
-      // this.curPosX = this.initX;
-      // this.curPosY = this.initY;
+      this.resetCard ( );
     }
+  }
+
+  finalizeMove ( )
+  {
+    this.initX = this.cardData.TopLeftX;
+    this.initY = this.cardData.TopLeftY;
+  }
+  resetCard ( )
+  {
+    this.cardData.TopLeftX = this.initX;
+    this.cardData.TopLeftY = this.initY;
+    this.curPosX = this.initX;
+    this.curPosY = this.initY;
   }
 
   canMakeMove ( )
   {
     return true;
-  }
-
-  moveToHand ( )
-  {
-    
-    this.store.cardInHand1.push ( this.store.cardOnBench1.pop ( ) );
   }
 
   moveToBench ( )
@@ -152,37 +146,18 @@ export class DraggableDirective implements AfterViewInit {
       // this.cardData.TopLeftX = stageConstants.battleCardSize.width * sectionNumber;
       // this.cardData.TopLeftY = 0;
 
-      var distance = 999999;
-      var bestMatchIndex = -1;
-      var bestMatchX = -1;
-      for ( var i in this.store.cardOnBoard2 )
-      {
-        var xDiff = this.store.cardOnBoard2 [ i ].TopLeftX - this.cardData.TopLeftX;
-        xDiff = Math.abs ( xDiff );
-        if ( xDiff < distance )
-        {
-          // We are getting closer
-          bestMatchIndex = Number ( i );
-          distance = xDiff;
-          bestMatchX = this.store.cardOnBoard2 [ i ].TopLeftX;
-        }
-        else
-        {
-          // Getting futher. Abort
-          break;
-        }
-      }
-
-      if ( bestMatchIndex < 0 )
+      var i = getBattleLaneSlot ( this.cardData );
+      console.log ( i );
+      if ( i < 0 )
       {
         return false;
       }
 
-      this.cardData.TopLeftX = bestMatchX;
+      this.cardData.TopLeftX = this.store.cardOnBoard2 [ i ].TopLeftX;
       this.cardData.TopLeftY = 0;
-      this.cardData.BattleLocation = bestMatchIndex;
+      this.cardData.BattleLocation = i;
 
-      return this.moveCardById ( this.getCardId ( ), this.store.cardOnBench1, this.store.cardOnBoard1, bestMatchIndex );
+      return this.moveCardById ( this.getCardId ( ), this.store.cardOnBench1, this.store.cardOnBoard1, i );
     }
     else
     {
