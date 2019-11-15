@@ -24,6 +24,7 @@ export class CardClass {
     public Dragged:boolean = false;
     public Draggable:boolean = true;
     public CardType:CardTypes = CardTypes.unit;
+    public OutLine:number = 0; // an int representing what outline to have
 
     // Ok this one is kinda weird and a hack
     // This is literally just for a card that you move to store state

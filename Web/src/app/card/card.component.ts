@@ -60,7 +60,6 @@ export class DraggableDirective implements AfterViewInit {
     {
       if ( this.cardData.Location == "hand" )
       {
-        console.log ( newArea ( this.cardData ) );
         if ( newArea ( this.cardData ) == "bench" )
         {
           if ( this.moveToBench ( ) ) 
@@ -72,6 +71,10 @@ export class DraggableDirective implements AfterViewInit {
             this.resetCard ( );
           }
         }
+        else
+        {
+          this.resetCard ( );
+        }
       }
       else if ( this.cardData.Location == "bench" )
       {
@@ -80,11 +83,17 @@ export class DraggableDirective implements AfterViewInit {
           if ( this.moveToBattle ( ) )
           {
             this.finalizeMove ( );
+            // sometimes we can have actions that occur after summon
+            
           }
           else
           {
             this.resetCard ( );
           }
+        }
+        else
+        {
+          this.resetCard ( );
         }
       }
       else if ( this.cardData.Location == "battle" )
@@ -102,6 +111,7 @@ export class DraggableDirective implements AfterViewInit {
     {
       this.resetCard ( );
     }
+    
   }
 
   finalizeMove ( )
@@ -125,7 +135,7 @@ export class DraggableDirective implements AfterViewInit {
   moveToBench ( )
   {
     var id = this.getCardId ( );
-
+    this.cardData.Location = "bench";
     return this.moveCardById ( id, this.store.cardInHand1, this.store.cardOnBench1 );
   }
 
@@ -156,7 +166,7 @@ export class DraggableDirective implements AfterViewInit {
       this.cardData.TopLeftX = this.store.cardOnBoard2 [ i ].TopLeftX;
       this.cardData.TopLeftY = 0;
       this.cardData.BattleLocation = i;
-
+      this.cardData.Location = "battle";
       return this.moveCardById ( this.getCardId ( ), this.store.cardOnBench1, this.store.cardOnBoard1, i );
     }
     else

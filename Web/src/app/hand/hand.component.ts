@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CardStore, cardStore } from '../card-store/card-store';
+import { stageConstants } from '../card-store/stage-constants';
 
 @Component({
   selector: 'app-hand',
@@ -34,7 +35,7 @@ export class HandComponent implements OnInit {
     // We assume the px value is xxxpx;
     // Get rid of the px part
     pxValue = Number ( hand.style.top.substr ( 0, hand.style.top.length - 2 ) );
-    hand.style.top = `${pxValue - 100}px`
+    hand.style.top = `${pxValue - stageConstants.handCardSize.height }px`
   }
 
   handUnHovered ( )

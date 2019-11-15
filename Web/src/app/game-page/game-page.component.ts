@@ -19,7 +19,7 @@ export class GamePageComponent implements OnInit {
 
   constructor( private renderer:Renderer2, private componentFactory:ComponentFactoryResolver ) { 
     this.store = cardStore;
-    this.displayedCards = require ( "src/assets/test.json" );
+    this.displayedCards = require ( "src/assets/test2.json" );
     this.boardHeight = this.displayedCards [ "Screen" ] [ "ScreenHeight" ];
     this.boardWidth = this.displayedCards [ "Screen" ] [ "ScreenWidth" ];
     this.displayedCards = this.displayedCards [ "Rectangles" ];
@@ -44,42 +44,38 @@ export class GamePageComponent implements OnInit {
       if ( cardY < this.boardHeight * .1 )
       {
         cardObj.Location = "hand";
-        cardObj.CardCode = "cardback";
-        cardObj.Draggable = false;
-        this.store.cardInHand2.push ( cardObj );
+        // cardObj.CardCode = "cardback";
+        this.store.cardInHand1.push ( cardObj );
       }
       else if ( cardY < this.boardHeight * .37 )
       {
         cardObj.Location = "bench";
-        cardObj.Draggable = false;
-        this.store.cardOnBench2.push ( cardObj );
+        this.store.cardOnBench1.push ( cardObj );
       }
       else if ( cardY < this.boardHeight* .46 )
       {
         cardObj.Location = "battle";
-        cardObj.Draggable = false;
-        this.store.cardOnBoard2.push ( cardObj );
-      }
-      else if ( cardY < this.boardHeight * .57 )
-      {
-        cardObj.Location = "spell";
-        cardObj.Draggable = false;
-        this.store.spells.push ( cardObj );
-      }
-      else if ( cardY < this.boardHeight * .68 )
-      {
-        cardObj.Location = "battle";
         this.store.cardOnBoard1.push ( cardObj );
-      }
-      else if ( cardY < this.boardHeight * .83 )
-      {
-        cardObj.Location = "bench";
-        this.store.cardOnBench1.push ( cardObj );
       }
       else
       {
-        cardObj.Location = "hand";
-        this.store.cardInHand1.push ( cardObj );
+        cardObj.Draggable = false;
+        if ( cardY < this.boardHeight * .57 )
+        {
+          cardObj.Location = "spell";
+          this.store.spells.push ( cardObj );
+        }
+        else if ( cardY < this.boardHeight * .68 )
+        {
+          cardObj.Location = "battle";
+          this.store.cardOnBoard2.push ( cardObj );
+        }
+        else
+        {
+          cardObj.Location = "bench";
+          this.store.cardOnBench2.push ( cardObj );
+        }
+
       }
     }
   }
