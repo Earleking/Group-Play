@@ -23,7 +23,7 @@ export class CardClass {
     public Selectable:boolean = false;
     public Dragged:boolean = false;
     public Draggable:boolean = true;
-    public CardType:CardTypes = CardTypes.unit;
+    public CardType:CardTypes = CardTypes.unit; 
     public OutLine:number = 0; // an int representing what outline to have
 
     // Ok this one is kinda weird and a hack
@@ -43,6 +43,34 @@ export class CardClass {
         this.TopLeftX = json [ "TopLeftX" ];
         this.TopLeftY = json [ "TopLeftY" ];
         this.LocalPlayer = json [ "LocalPlayer" ];
+        if ( this.LocalPlayer == true )
+        {
+            // Only look for more data on local players
+            // WE don't move their cards
+            var data = getCardDataByCode ( this.CardCode );
+            if ( data )
+            {
+                switch ( data [ "type" ] ) {
+                    case "Unit":
+                        this.CardType == CardTypes.unit;
+                        break;
+                    case "Spell":
+                        this.CardType = CardTypes.spell;
+                        break;
+                    default:
+                        break;
+                }
+                console.log ( data );
+                this.ManaCost = data [ "cost" ];
+                if ( data [ "action" ] )
+                {
+                    var newSelector = new CardSelect ( );
+                    newSelector.count = data [ "action" ] [ "number" ];
+                    newSelector.targets = data [ "action" ] [ "targets" ];
+                    this.Actions = newSelector;
+                }
+            }
+        }
     }
 }
 
@@ -54,7 +82,7 @@ export function getCardDataByCode ( cardCode:string )
         ( data ) => {
             return data [ "cardCode" ] == cardCode;
         }
-    )
+    ) [ 0 ];
 }
 
 // returns the new area it is being moved to

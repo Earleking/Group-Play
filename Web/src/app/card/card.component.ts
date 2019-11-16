@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, HostListener, AfterViewInit, Directive, ApplicationRef, ChangeDetectorRef } from '@angular/core';
-import { CardStore, cardStore } from '../card-store/card-store';
+import { CardStore, cardStore, configBattlePlayer } from '../card-store/card-store';
 import { CardClass, newArea, getBattleLaneSlot } from '../card-store/card-class';
 import { stageConstants } from '../card-store/stage-constants';
+import { DragService } from '../drag.service';
 
 @Directive ( {selector: '[dragit]'} )
 export class DraggableDirective implements AfterViewInit {
@@ -15,7 +16,8 @@ export class DraggableDirective implements AfterViewInit {
   dragging:boolean = false;
   store:CardStore;
 
-  constructor ( private cd:ChangeDetectorRef ) {
+  constructor ( private cd:ChangeDetectorRef, private cardRule:DragService ) {
+
   }
 
   ngAfterViewInit ( )
@@ -56,7 +58,7 @@ export class DraggableDirective implements AfterViewInit {
   endDrag ( )
   {
     this.cardData.Dragged = false;
-    if ( true ) // check if move is legal here
+    if ( this.cardRule.moveCard ( this.cardData) ) // check if move is legal here
     {
       if ( this.cardData.Location == "hand" )
       {
@@ -65,6 +67,7 @@ export class DraggableDirective implements AfterViewInit {
           if ( this.moveToBench ( ) ) 
           {
             this.finalizeMove ( );
+
           }
           else
           {
@@ -84,7 +87,7 @@ export class DraggableDirective implements AfterViewInit {
           {
             this.finalizeMove ( );
             // sometimes we can have actions that occur after summon
-            
+            this.checkForActions ( );
           }
           else
           {
@@ -139,6 +142,17 @@ export class DraggableDirective implements AfterViewInit {
     return this.moveCardById ( id, this.store.cardInHand1, this.store.cardOnBench1 );
   }
 
+  checkForActions ( )
+  {
+    if ( this.cardData.Actions )
+    {
+      for ( var i = 0; i < this.cardData.Actions.count; i ++ )
+      {
+        // targetCharacter ( this.cardData.Actions.targets );  
+      }
+    }
+  }
+
   moveToBattle ( )
   {
     // we assume all container elements are the same width
@@ -172,6 +186,12 @@ export class DraggableDirective implements AfterViewInit {
     else
     {
       // We are moving to attack
+      this.cardData.TopLeftY = 0;
+      this.cardData.BattleLocation = this.store.cardOnBoard1.length;
+      this.cardData.Location = "battle";
+      var r = this.moveCardById ( this.getCardId ( ), this.store.cardOnBench1, this.store.cardOnBoard1 );
+      configBattlePlayer ( );
+      return r;
     }
   }
 

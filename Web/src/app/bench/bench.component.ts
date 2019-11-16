@@ -64,5 +64,4 @@ export class BenchComponent implements AfterViewInit, OnChanges {
       this.config ( );
     }, 10 );
   }
-
 }

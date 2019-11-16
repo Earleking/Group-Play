@@ -13,6 +13,7 @@ import { CardComponent, DraggableDirective } from './card/card.component';
 import { HandComponent } from './hand/hand.component';
 import { BenchComponent } from './bench/bench.component';
 import { BattleComponent } from './battle/battle.component';
+import { ArrowComponent } from './arrow/arrow.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { BattleComponent } from './battle/battle.component';
     DraggableDirective,
     HandComponent,
     BenchComponent,
-    BattleComponent
+    BattleComponent,
+    ArrowComponent
   ],
   imports: [
     BrowserModule,

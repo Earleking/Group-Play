@@ -10,6 +10,7 @@ import { CardComponent } from './card/card.component';
 export class DragService {
   private mana: number = 999999;
   private LANE_CAPACITY: number = 6;
+  private attackToken: boolean = true;
 
   constructor() {
   }
@@ -27,27 +28,26 @@ export class DragService {
     }
 
     let newSection = newArea ( card ); // assuming all sections are same height
-
     let laneSlot = getBattleLaneSlot ( card ); // the index of the array to put card in
-
-    console.log ( laneSlot );
 
     // Battle array always needs to be size 6 so we can place cards in whatever position
     // The other arrays, we force the order as queues.
     switch ( newSection ) {
-      case "hand":
+      case "bench":
         // Card in hand, not a spell, putting on bench
-        if ( card.Location === "Hand"
+        if ( card.Location === "hand"
           && card.ManaCost < this.mana
           && card.CardType != CardTypes.spell
           && cardStore.cardOnBench1.length < this.LANE_CAPACITY) {
           return true;
         }
         break;
-      case "bench":
+      case "battle":
         // Attack/Defence Logic
         // Max 6 cards in bench
-        if ( card.Location === "Bench"
+        if ( card.Location === "bench"
+          && card.CardType === CardTypes.unit
+          && cardStore.cardOnBoard2.length > 0
           && isBattleSlotEmpty ( laneSlot ) // slot is empty
           && cardStore.cardOnBoard1.length < this.LANE_CAPACITY )
         {
@@ -60,16 +60,32 @@ export class DragService {
             return true;
           }
         }
-        break;
-      case "battle":
-        if ( card.Location === "Hand"
-          && card.CardType === CardTypes.spell
-          && card.ManaCost < this.mana) {
+        if ( card.Location === "bench" 
+          && card.CardType === CardTypes.unit 
+          && this.attackToken === true
+          && cardStore.cardOnBoard1.length < this.LANE_CAPACITY )
+        {
           return true;
         }
         break;
+      // case "battle":
+      //   // Move to defend
+      //   if ( card.Location === "bench"
+      //     && card.CardType === CardTypes.unit
+      //     && cardStore.cardOnBoard2.length > 0 ) {
+      //     return true;
+      //   }
+      //   // Move to attack
+      //   if ( card.Location === "bench"
+      //     && card.CardType === CardTypes.unit
+      //     && cardStore.cardOnBoard2.length === 0
+      //     && this.attackToken === true ) {
+      //     return true;
+      //   }
+      //   break;
       case "spell":
         if ( card.Location == "hand"
+          && card.CardType === CardTypes.spell
           && card.ManaCost < this.mana )
         {
           return true;
@@ -81,3 +97,4 @@ export class DragService {
     return false;
   }
 }
+
