@@ -16,11 +16,16 @@ export class Move
 
 export class TurnManager
 {
-    moves = [];
-    add ( )
+    moves:Array<Move> = [ ];
+    add ( move:Move )
     {
-        
+        this.moves.push ( move );
     }
 }
 
 export const turnManager = new TurnManager ( );
+export function endTurn ( )
+{
+    console.log ( "Ending turn" );
+    // TODO a fuckton of stuff here to end turn and send data and stuff
+}

@@ -14,11 +14,9 @@ export class BenchComponent implements AfterViewInit, OnChanges {
   cardWidth:number = this.constants.benchCardSize.width + 20;
 
   constructor() { 
-    console.log ( this.store );
   }
   
   ngAfterViewInit() {
-    console.log ( this.localPlayer );
     this.config ( );
   }
 

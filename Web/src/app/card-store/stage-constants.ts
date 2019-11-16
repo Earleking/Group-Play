@@ -21,6 +21,10 @@ export class StageConstants
         top: {
             p1: 790,
             p2: 200
+        },
+        bottom: {
+            p1: 790 + 158,
+            p2: 200 + 158
         }
     };
     public handSize = {
@@ -29,6 +33,10 @@ export class StageConstants
         top: {
             p1: 970,
             p2: -125
+        },
+        bottom: {
+            p1: 970 + 160,
+            p2: -125 + 160
         }
     };
     // Battle size is just max width
@@ -38,6 +46,10 @@ export class StageConstants
         top: {
             p1: 600,
             p2: 400
+        },
+        bottom: {
+            p1: 600 + 158,
+            p2: 400 + 158
         }
     };
 }

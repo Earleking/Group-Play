@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, HostListener, AfterViewInit, Directive, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { CardStore, cardStore, configBattlePlayer } from '../card-store/card-store';
-import { CardClass, newArea, getBattleLaneSlot } from '../card-store/card-class';
+import { CardClass, newArea, getBattleLaneSlot, getLocalCardByBattleSlot, getChallengerBattleLaneSlot } from '../card-store/card-class';
 import { stageConstants } from '../card-store/stage-constants';
 import { DragService } from '../drag.service';
+import { endTurn } from '../card-store/turn-manager';
+import { gameState } from '../card-store/game-state';
 
 @Directive ( {selector: '[dragit]'} )
 export class DraggableDirective implements AfterViewInit {
@@ -41,6 +43,12 @@ export class DraggableDirective implements AfterViewInit {
     {
       this.cardData.Dragged = true;
     }
+    else if ( this.cardData.LocalPlayer == false &&
+              this.cardData.Location == "bench" && 
+              gameState.IsChallenging == true )
+    {
+      this.cardData.Dragged = true;
+    }
   }
 
   
@@ -67,7 +75,10 @@ export class DraggableDirective implements AfterViewInit {
           if ( this.moveToBench ( ) ) 
           {
             this.finalizeMove ( );
+            // sometimes we can have actions that occur after summon
 
+            // As this is not a sync function, we will call end turn somewhere inside here
+            this.checkForActions ( );
           }
           else
           {
@@ -83,15 +94,29 @@ export class DraggableDirective implements AfterViewInit {
       {
         if ( newArea ( this.cardData ) == "battle" )
         {
-          if ( this.moveToBattle ( ) )
+          if ( gameState.IsChallenging &&
+               this.cardData.LocalPlayer == false )
           {
-            this.finalizeMove ( );
-            // sometimes we can have actions that occur after summon
-            this.checkForActions ( );
+            if ( this.moveAsChallenger ( ) )
+            {
+              endTurn ( );
+              this.finalizeMove ( );
+            }
+            else
+            {
+              this.resetCard ( );
+            }
           }
           else
           {
-            this.resetCard ( );
+            if ( this.moveToBattle ( ) )
+            {
+              this.finalizeMove ( );
+            }
+            else
+            {
+              this.resetCard ( );
+            }
           }
         }
         else
@@ -151,11 +176,40 @@ export class DraggableDirective implements AfterViewInit {
         this.targetCharacter ( this.cardData.Actions.targets );  
       }
     }
+    else
+    {
+      endTurn ( );
+    }
   }
 
   targetCharacter ( targets:Array < string > )
   {
     document.body.style.cursor = "target";
+  }
+
+  moveAsChallenger ( )
+  {
+    var i = getChallengerBattleLaneSlot ( this.cardData );
+    if ( i < 0 )
+    {
+      return false;
+    }
+
+    var cCard = getLocalCardByBattleSlot ( i );
+    if ( cCard == null )
+    {
+      return false;
+    }
+    if ( cCard.IsChallenger == false )
+    {
+      return false;
+    }
+
+    this.cardData.TopLeftX = this.store.cardOnBoard1 [ i ].TopLeftX;
+    this.cardData.TopLeftY = 0;
+    this.cardData.BattleLocation = i;
+    this.cardData.Location = "battle";
+    return this.moveCardById ( this.getCardId ( ), this.store.cardOnBench2, this.store.cardOnBoard2, i );
   }
 
   moveToBattle ( )
@@ -176,7 +230,6 @@ export class DraggableDirective implements AfterViewInit {
       // this.cardData.TopLeftY = 0;
 
       var i = getBattleLaneSlot ( this.cardData );
-      console.log ( i );
       if ( i < 0 )
       {
         return false;
@@ -196,6 +249,14 @@ export class DraggableDirective implements AfterViewInit {
       this.cardData.Location = "battle";
       var r = this.moveCardById ( this.getCardId ( ), this.store.cardOnBench1, this.store.cardOnBoard1 );
       configBattlePlayer ( );
+      if ( this.cardData.IsChallenger )
+      {
+        gameState.IsChallenging = true;
+      }
+      else
+      {
+        endTurn ( );
+      }
       return r;
     }
   }

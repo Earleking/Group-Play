@@ -17,18 +17,18 @@ export class DragService {
   // TODO: make another function for targetability?
   // OH FUCK SPELLS ARE GONNA BE A BITCH 
 
-  moveCard ( card: CardClass ): boolean {    
+  moveCard ( card: CardClass ): boolean {
     // TODOs:
     //  Account for game phase
     //  Refactor out mana into some playerstate holder?
 
-    if (!card.LocalPlayer) {
+    if ( !card.LocalPlayer && gameState.IsChallenging == false ) {
       return false;
     }
 
     let newSection = newArea ( card ); // assuming all sections are same height
     let laneSlot = getBattleLaneSlot ( card ); // the index of the array to put card in
-
+    console.log ( newSection );
     // Battle array always needs to be size 6 so we can place cards in whatever position
     // The other arrays, we force the order as queues.
     switch ( newSection ) {
@@ -51,11 +51,11 @@ export class DragService {
           && isBattleSlotEmpty ( laneSlot ) // slot is empty
           && cardStore.cardOnBoard1.length < this.LANE_CAPACITY )
         {
-          if ( getEnemyCardByBattleSlot ( laneSlot ).isTargetable == true )
+          if ( getEnemyCardByBattleSlot ( laneSlot ).IsTargetable == true )
           {
             return true;
           }
-          else if ( getEnemyCardByBattleSlot ( laneSlot ).isTargetable == card.isTargetable )
+          else if ( getEnemyCardByBattleSlot ( laneSlot ).IsTargetable == card.IsTargetable )
           {
             return true;
           }
@@ -64,6 +64,14 @@ export class DragService {
           && card.CardType === CardTypes.unit 
           && gameState.AttackToken === true
           && cardStore.cardOnBoard1.length < this.LANE_CAPACITY )
+        {
+          return true;
+        }
+        console.log ( card );
+        if ( card.Location === "bench" 
+          && card.CardType === CardTypes.unit
+          && card.LocalPlayer === false
+          && gameState.IsChallenging === true )
         {
           return true;
         }

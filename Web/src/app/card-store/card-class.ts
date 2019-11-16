@@ -32,7 +32,8 @@ export class CardClass {
     public BattleLocation:number = -1;
 
     public ManaCost: number;
-    public isTargetable: boolean;
+    public IsTargetable: boolean;
+    public IsChallenger: boolean = false;
     public Actions: CardSelect;
 
     populateWithJson ( json ) {
@@ -60,7 +61,10 @@ export class CardClass {
                     default:
                         break;
                 }
-                console.log ( data );
+                if ( data [ "keywords" ].includes ( "Challenger" ) )
+                {
+                    this.IsChallenger = true;
+                }
                 this.ManaCost = data [ "cost" ];
                 if ( data [ "action" ] )
                 {
@@ -91,35 +95,58 @@ export function newArea ( card:CardClass )
     var offsetY:number;
     switch (card.Location) {
         case "hand":
-            offsetY = stageConstants.handSize.top.p1;
+            offsetY = card.LocalPlayer ? stageConstants.handSize.top.p1 : stageConstants.handSize.top.p2;
             break;
         case "bench":
-            offsetY = stageConstants.benchSize.top.p1;
+            offsetY = card.LocalPlayer ? stageConstants.benchSize.top.p1 : stageConstants.benchSize.top.p2;
             break;
         case "battle":
-            offsetY = stageConstants.battleSize.top.p1;
+            offsetY = card.LocalPlayer ? stageConstants.battleSize.top.p1 : stageConstants.battleSize.top.p2;
             break;
         default:
             return "";
     }
     offsetY += card.TopLeftY;
-    if ( card.CardType == CardTypes.spell )
+    if ( card.LocalPlayer )
     {
-        if ( offsetY < stageConstants.battleSize.top.p1 )
+        if ( card.CardType == CardTypes.spell )
         {
-            return "spell";
+            if ( offsetY < stageConstants.battleSize.top.p1 )
+            {
+                return "spell";
+            }
+            return "hand";
+        }
+        if ( offsetY <= stageConstants.benchSize.top.p1 )
+        {
+            return "battle";
+        }
+        if ( offsetY <= stageConstants.handSize.top.p1 )
+        {
+            return "bench";
         }
         return "hand";
     }
-    if ( offsetY <= stageConstants.benchSize.top.p1 )
+    else
     {
-        return "battle";
+        if ( card.CardType == CardTypes.spell )
+        {
+            if ( offsetY > stageConstants.battleSize.top.p2 )
+            {
+                return "spell";
+            }
+            return "hand";
+        }
+        if ( offsetY >= stageConstants.battleSize.top.p2 )
+        {
+            return "battle";
+        }
+        if ( offsetY >= stageConstants.benchSize.top.p2 )
+        {
+            return "bench";
+        }
+        return "hand";
     }
-    if ( offsetY <= stageConstants.handSize.top.p1 )
-    {
-        return "bench";
-    }
-    return "hand";
 }
 
 // This is to find the lane slot the player's card that is passed is in
@@ -129,15 +156,46 @@ export function getBattleLaneSlot ( card:CardClass )
     var distance = 999999;
     var bestMatchIndex = -1;
 
-    for ( var i in cardStore.cardOnBoard2 )
+    var array = card.LocalPlayer ? cardStore.cardOnBoard2 : cardStore.cardOnBoard1;
+
+    for ( var i in array )
     {
-        var xDiff = cardStore.cardOnBoard2 [ i ].TopLeftX - card.TopLeftX;
+        var xDiff = array [ i ].TopLeftX - card.TopLeftX;
         xDiff = Math.abs ( xDiff );
         if ( xDiff < distance )
         {
             // We are getting closer
             bestMatchIndex = Number ( i );
             distance = xDiff;
+        }
+        else
+        {
+            // Getting futher. Abort
+            break;
+        }
+    }
+    return bestMatchIndex;
+}
+
+export function getChallengerBattleLaneSlot ( card:CardClass )
+{
+    var distance = 999999;
+    var bestMatchIndex = -1;
+
+    var array = card.LocalPlayer ? cardStore.cardOnBoard2 : cardStore.cardOnBoard1;
+
+    for ( var i in array )
+    {
+        var xDiff = array [ i ].TopLeftX - card.TopLeftX;
+        xDiff = Math.abs ( xDiff );
+        if ( xDiff < distance )
+        {
+            if ( array [ i ].IsChallenger )
+            {
+                // We are getting closer
+                bestMatchIndex = Number ( i );
+                distance = xDiff;
+            }
         }
         else
         {
@@ -158,6 +216,21 @@ export function isBattleSlotEmpty ( slot:number )
         }
     }
     return true;
+}
+
+export function getLocalCardByBattleSlot ( slot:number )
+{
+    for ( var card of cardStore.cardOnBoard1 )
+    {
+        if ( card.BattleLocation === slot )
+        {
+            return card;
+        }
+    }
+    // this is a serious o fuck.
+    // Should never hit here if everything else is going well
+    console.log ( "FUCK. Trying to find enemy card on battle that doesn't exist" );
+    return null;
 }
 
 export function getEnemyCardByBattleSlot ( slot:number )
