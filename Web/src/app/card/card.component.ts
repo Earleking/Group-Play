@@ -148,9 +148,14 @@ export class DraggableDirective implements AfterViewInit {
     {
       for ( var i = 0; i < this.cardData.Actions.count; i ++ )
       {
-        // targetCharacter ( this.cardData.Actions.targets );  
+        this.targetCharacter ( this.cardData.Actions.targets );  
       }
     }
+  }
+
+  targetCharacter ( targets:Array < string > )
+  {
+    
   }
 
   moveToBattle ( )
