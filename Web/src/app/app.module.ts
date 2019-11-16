@@ -14,6 +14,8 @@ import { HandComponent } from './hand/hand.component';
 import { BenchComponent } from './bench/bench.component';
 import { BattleComponent } from './battle/battle.component';
 import { ArrowComponent } from './arrow/arrow.component';
+import { StreamComponent } from './stream/stream.component';
+import { CardDisplayComponent } from './card-display/card-display.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { ArrowComponent } from './arrow/arrow.component';
     HandComponent,
     BenchComponent,
     BattleComponent,
-    ArrowComponent
+    ArrowComponent,
+    StreamComponent,
+    CardDisplayComponent
   ],
   imports: [
     BrowserModule,

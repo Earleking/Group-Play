@@ -1,7 +1,8 @@
 import { Component, OnInit, Renderer, Renderer2, ViewEncapsulation, ComponentFactoryResolver } from '@angular/core';
 import { CardComponent } from '../card/card.component';
-import { CardStore, cardStore } from '../card-store/card-store';
+import { CardStore, cardStore, configBattlePlayer } from '../card-store/card-store';
 import { CardClass } from '../card-store/card-class';
+import { gameState, GamePhase } from '../card-store/game-state';
 
 @Component({
   selector: 'app-game-page',
@@ -68,6 +69,8 @@ export class GamePageComponent implements OnInit {
         else if ( cardY < this.boardHeight * .68 )
         {
           cardObj.Location = "battle";
+          // Whoa we are in combat
+          gameState.Phase = GamePhase.combat;
           this.store.cardOnBoard2.push ( cardObj );
         }
         else
@@ -77,6 +80,10 @@ export class GamePageComponent implements OnInit {
         }
 
       }
+    }
+    if ( 0 == this.store.cardOnBoard2.length )
+    {
+      configBattlePlayer ( );
     }
   }
 }

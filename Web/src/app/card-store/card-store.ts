@@ -20,7 +20,8 @@ export function configBattlePlayer ( )
 {
     var cardWidth = stageConstants.battleCardSize.width + 5;
     // Do config and organize locations of places
-    var width = document.getElementById ( `player-battle-1` ).clientWidth;
+    // var width = document.getElementById ( `player-battle-1` ).clientWidth;
+    var width = stageConstants.battleSize.width;
     var cardOffset = width / 2;
 
     var nOfCard = cardStore.cardOnBoard1.length;

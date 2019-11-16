@@ -3,14 +3,13 @@ import { CardStore, cardStore } from './card-store/card-store';
 import { CardClass, CardTypes, newArea, getBattleLaneSlot, isBattleSlotEmpty, getEnemyCardByBattleSlot } from './card-store/card-class';
 import { stageConstants } from './card-store/stage-constants';
 import { CardComponent } from './card/card.component';
+import { gameState, GamePhase } from './card-store/game-state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DragService {
-  private mana: number = 999999;
   private LANE_CAPACITY: number = 6;
-  private attackToken: boolean = true;
 
   constructor() {
   }
@@ -36,9 +35,10 @@ export class DragService {
       case "bench":
         // Card in hand, not a spell, putting on bench
         if ( card.Location === "hand"
-          && card.ManaCost < this.mana
+          && card.ManaCost < gameState.Mana
           && card.CardType != CardTypes.spell
-          && cardStore.cardOnBench1.length < this.LANE_CAPACITY) {
+          && cardStore.cardOnBench1.length < this.LANE_CAPACITY 
+          && gameState.Phase === GamePhase.default ) {
           return true;
         }
         break;
@@ -62,7 +62,7 @@ export class DragService {
         }
         if ( card.Location === "bench" 
           && card.CardType === CardTypes.unit 
-          && this.attackToken === true
+          && gameState.AttackToken === true
           && cardStore.cardOnBoard1.length < this.LANE_CAPACITY )
         {
           return true;
@@ -86,7 +86,7 @@ export class DragService {
       case "spell":
         if ( card.Location == "hand"
           && card.CardType === CardTypes.spell
-          && card.ManaCost < this.mana )
+          && card.ManaCost < gameState.Mana )
         {
           return true;
         }

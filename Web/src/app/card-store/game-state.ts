@@ -1,10 +1,10 @@
-enum GamePhase
+export enum GamePhase
 {
-    attack,
-    defend
+    default,
+    combat
 }
 
-enum GameStatePhase
+export enum GameStatePhase
 {
     default,
     target
@@ -14,8 +14,9 @@ export class GameState
 {
     public Mana = 10;
     public SpellMana = 3;
-    public Phase = GamePhase.attack;
+    public Phase = GamePhase.default;
     public InternalPhase = GameStatePhase.default;
+    public AttackToken = true;
 }
 
-export var gameState = new GameState ( );
+export const gameState = new GameState ( );

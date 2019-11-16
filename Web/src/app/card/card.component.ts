@@ -155,7 +155,7 @@ export class DraggableDirective implements AfterViewInit {
 
   targetCharacter ( targets:Array < string > )
   {
-    
+    document.body.style.cursor = "target";
   }
 
   moveToBattle ( )

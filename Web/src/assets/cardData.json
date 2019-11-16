@@ -912,7 +912,13 @@
     "subtype": "",
     "supertype": "",
     "type": "Unit",
-    "collectible": true
+    "collectible": true,
+    "action": {
+      "targets": [
+        "enemy"
+      ],
+      "number": 1
+    }
   },
   {
     "associatedCards": [],
