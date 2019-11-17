@@ -3,6 +3,7 @@ import { CardStore, cardStore, configBattlePlayer } from '../card-store/card-sto
 import { CardClass, newArea, getBattleLaneSlot } from '../card-store/card-class';
 import { stageConstants } from '../card-store/stage-constants';
 import { DragService } from '../drag.service';
+import { TurnService } from '../turn.service';
 
 @Directive ( {selector: '[dragit]'} )
 export class DraggableDirective implements AfterViewInit {
@@ -16,7 +17,9 @@ export class DraggableDirective implements AfterViewInit {
   dragging:boolean = false;
   store:CardStore;
 
-  constructor ( private cd:ChangeDetectorRef, private cardRule:DragService ) {
+  constructor ( private cd:ChangeDetectorRef,
+                private cardRule:DragService,
+                private turnService: TurnService ) {
 
   }
 
@@ -37,7 +40,7 @@ export class DraggableDirective implements AfterViewInit {
     this.initY = this.cardData.TopLeftY;
     this.curPosX = this.initX;
     this.curPosY = this.initY;
-    if ( this.cardData.Draggable )
+    if ( this.cardData.Draggable && this.turnService.getCanMove() )
     {
       this.cardData.Dragged = true;
     }
@@ -58,7 +61,7 @@ export class DraggableDirective implements AfterViewInit {
   endDrag ( )
   {
     this.cardData.Dragged = false;
-    if ( this.cardRule.moveCard ( this.cardData) ) // check if move is legal here
+    if ( this.turnService.getCanMove() && this.cardRule.moveCard ( this.cardData) ) // check if move is legal here
     {
       if ( this.cardData.Location == "hand" )
       {
@@ -67,7 +70,6 @@ export class DraggableDirective implements AfterViewInit {
           if ( this.moveToBench ( ) ) 
           {
             this.finalizeMove ( );
-
           }
           else
           {

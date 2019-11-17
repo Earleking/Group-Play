@@ -14,6 +14,7 @@ import { HandComponent } from './hand/hand.component';
 import { BenchComponent } from './bench/bench.component';
 import { BattleComponent } from './battle/battle.component';
 import { ArrowComponent } from './arrow/arrow.component';
+import { TimerComponent } from './timer/timer.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ArrowComponent } from './arrow/arrow.component';
     HandComponent,
     BenchComponent,
     BattleComponent,
-    ArrowComponent
+    ArrowComponent,
+    TimerComponent
   ],
   imports: [
     BrowserModule,

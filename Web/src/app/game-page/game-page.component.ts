@@ -2,6 +2,7 @@ import { Component, OnInit, Renderer, Renderer2, ViewEncapsulation, ComponentFac
 import { CardComponent } from '../card/card.component';
 import { CardStore, cardStore } from '../card-store/card-store';
 import { CardClass } from '../card-store/card-class';
+import { TurnService } from '../turn.service';
 
 @Component({
   selector: 'app-game-page',
@@ -17,7 +18,9 @@ export class GamePageComponent implements OnInit {
   boardWidth:number;
   displayedCards:Array< Map < string, any> >;
 
-  constructor( private renderer:Renderer2, private componentFactory:ComponentFactoryResolver ) { 
+  constructor( private renderer:Renderer2,
+               private componentFactory:ComponentFactoryResolver,
+               private turnService: TurnService ) { 
     this.store = cardStore;
     this.displayedCards = require ( "src/assets/test2.json" );
     this.boardHeight = this.displayedCards [ "Screen" ] [ "ScreenHeight" ];
