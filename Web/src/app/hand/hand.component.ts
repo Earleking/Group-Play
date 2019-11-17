@@ -55,7 +55,7 @@ export class HandComponent implements OnInit {
     // We assume the px value is xxxpx;
     // Get rid of the px part
     pxValue = pxValue.substr ( 0, pxValue.length - 2 );
-    hand.style.top = `970px`
+    hand.style.top = `1020px`
   }
 
 }

@@ -147,6 +147,7 @@ export class DraggableDirective implements AfterViewInit {
 
   finalizeMove ( )
   {
+    this.resizeCard ( );
     this.initX = this.cardData.TopLeftX;
     this.initY = this.cardData.TopLeftY;
   }
@@ -156,6 +157,28 @@ export class DraggableDirective implements AfterViewInit {
     this.cardData.TopLeftY = this.initY;
     this.curPosX = this.initX;
     this.curPosY = this.initY;
+  }
+
+  resizeCard ( )
+  {
+    console.log ( "Resizing card" );
+    console.log ( this.cardData.Location );
+    switch (this.cardData.Location) {
+      case "bench":
+        this.cardData.Height = stageConstants.benchCardSize.height;
+        this.cardData.Height = stageConstants.benchCardSize.width;
+        break;
+      case "hand":
+        this.cardData.Height = stageConstants.handCardSize.height;
+        this.cardData.Height = stageConstants.handCardSize.width;
+        break;
+      case "battle":
+        this.cardData.Height = stageConstants.battleCardSize.height;
+        this.cardData.Height = stageConstants.battleCardSize.width;
+        break;
+      default:
+        break;
+    }
   }
 
   canMakeMove ( )

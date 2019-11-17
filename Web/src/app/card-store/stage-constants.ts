@@ -7,7 +7,7 @@ export class StageConstants
     };
     public handCardSize = {
         width: 127,
-        height: 160
+        height: 311
     };
     // Battle size is just max width
     public battleCardSize = {
@@ -19,24 +19,24 @@ export class StageConstants
         width: 1920,
         height: 158,
         top: {
-            p1: 790,
-            p2: 200
+            p1: 825,
+            p2: 90
         },
         bottom: {
-            p1: 790 + 158,
-            p2: 200 + 158
+            p1: 825 + this.benchCardSize.height,
+            p2: 90 + this.benchCardSize.height
         }
     };
     public handSize = {
         width: 1920,
-        height: 160,
+        height: 311,
         top: {
-            p1: 970,
+            p1: 1020,
             p2: -125
         },
         bottom: {
-            p1: 970 + 160,
-            p2: -125 + 160
+            p1: 1020 + this.handCardSize.height,
+            p2: -125 + this.handCardSize.height
         }
     };
     // Battle size is just max width
@@ -45,11 +45,11 @@ export class StageConstants
         height: 158,
         top: {
             p1: 600,
-            p2: 400
+            p2: 325
         },
         bottom: {
-            p1: 600 + 158,
-            p2: 400 + 158
+            p1: 600 + this.battleCardSize.height,
+            p2: 325 + this.battleCardSize.height
         }
     };
 }
