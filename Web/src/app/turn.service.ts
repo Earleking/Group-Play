@@ -21,11 +21,11 @@ export class TurnService {
   submitTurn() {
     this.canMove = false;
     this.submitMove();
-    this.count++; // TEMPORARY - JUST TO RESET THE TIMER UNTIL WE GET submitMove FINISHED
   }
   enableCanMove() {
     // Allow the player to move, and start up the timer again.
     this.canMove = true;
+    this.count++; // TEMPORARY - JUST TO RESET THE TIMER UNTIL WE GET submitMove FINISHED
   }
 
   // Call this whenever a card is moved -- log moves, send moves to server.
@@ -38,5 +38,6 @@ export class TurnService {
       // temporarily represent move submission as just logging the move.
       console.log(this.log.pop());
     }
+    this.enableCanMove(); // temporarily do this here
   }
 }
