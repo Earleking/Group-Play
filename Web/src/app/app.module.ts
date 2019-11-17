@@ -16,6 +16,7 @@ import { BattleComponent } from './battle/battle.component';
 import { ArrowComponent } from './arrow/arrow.component';
 import { StreamComponent } from './stream/stream.component';
 import { CardDisplayComponent } from './card-display/card-display.component';
+import { TimerComponent } from './timer/timer.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { CardDisplayComponent } from './card-display/card-display.component';
     BattleComponent,
     ArrowComponent,
     StreamComponent,
-    CardDisplayComponent
+    CardDisplayComponent,
+    TimerComponent
   ],
   imports: [
     BrowserModule,
