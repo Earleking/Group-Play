@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { WebsocketService } from './websocket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class TurnService {
   private canMove: boolean = true;
   private log: Array<number> = []; // I'm assuming the moves are encoded as numbers, as detailed on card #15. Change if desired.
 
-  constructor() { }
+  constructor(private socketService: WebsocketService) { }
 
   getCanMove(): boolean {
     return this.canMove;

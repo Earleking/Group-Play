@@ -21,7 +21,7 @@ export class DraggableDirective implements AfterViewInit {
 
   constructor ( private cd:ChangeDetectorRef,
                 private cardRule:DragService,
-                private turnService: TurnService ) {
+                private turnService: TurnService, ) {
 
   }
 
