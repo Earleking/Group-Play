@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WebsocketService } from './websocket.service';
+import { PlayType, Move } from './card-store/turn-manager';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { WebsocketService } from './websocket.service';
 export class TurnService {
   count: number = 0; // DON'T QUESTION MY METHODS
   private canMove: boolean = true;
-  private log: Array<number> = []; // I'm assuming the moves are encoded as numbers, as detailed on card #15. Change if desired.
+  private log: Array<Move> = []; // I'm assuming the moves are encoded as numbers, as detailed on card #15. Change if desired.
 
   constructor(private socketService: WebsocketService) { }
 
@@ -30,7 +31,7 @@ export class TurnService {
   }
 
   // Call this whenever a card is moved -- log moves, send moves to server.
-  logMove(move: number) {
+  logMove(move: Move) {
     this.log.push(move);
   }
 
