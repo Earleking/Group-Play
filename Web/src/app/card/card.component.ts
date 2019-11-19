@@ -3,7 +3,7 @@ import { CardStore, cardStore, configBattlePlayer } from '../card-store/card-sto
 import { CardClass, newArea, getBattleLaneSlot, getLocalCardByBattleSlot, getChallengerBattleLaneSlot } from '../card-store/card-class';
 import { stageConstants } from '../card-store/stage-constants';
 import { DragService } from '../drag.service';
-import { endTurn } from '../card-store/turn-manager';
+import { endTurn, turnManager, Move, PlayType } from '../card-store/turn-manager';
 import { gameState } from '../card-store/game-state';
 import { TurnService } from '../turn.service';
 
@@ -161,8 +161,6 @@ export class DraggableDirective implements AfterViewInit {
 
   resizeCard ( )
   {
-    console.log ( "Resizing card" );
-    console.log ( this.cardData.Location );
     switch (this.cardData.Location) {
       case "bench":
         this.cardData.Height = stageConstants.benchCardSize.height;
@@ -190,6 +188,12 @@ export class DraggableDirective implements AfterViewInit {
   {
     var id = this.getCardId ( );
     this.cardData.Location = "bench";
+
+    var move = new Move ( );
+    move.target = this.cardData.CardID;
+    move.type = PlayType.play;
+    turnManager.add ( move );
+
     return this.moveCardById ( id, this.store.cardInHand1, this.store.cardOnBench1 );
   }
 
@@ -235,6 +239,11 @@ export class DraggableDirective implements AfterViewInit {
     this.cardData.TopLeftY = 0;
     this.cardData.BattleLocation = i;
     this.cardData.Location = "battle";
+    var move = new Move ( );
+    move.target = this.cardData.CardID;
+    move.refCard = this.store.cardOnBoard1 [ i ].CardID;
+    move.type = PlayType.challenge;
+    turnManager.add ( move );
     return this.moveCardById ( this.getCardId ( ), this.store.cardOnBench2, this.store.cardOnBoard2, i );
   }
 
@@ -265,6 +274,12 @@ export class DraggableDirective implements AfterViewInit {
       this.cardData.TopLeftY = 0;
       this.cardData.BattleLocation = i;
       this.cardData.Location = "battle";
+
+      var move = new Move ( );
+      move.target = this.cardData.CardID;
+      move.type = PlayType.defend;
+      turnManager.add ( move );
+
       return this.moveCardById ( this.getCardId ( ), this.store.cardOnBench1, this.store.cardOnBoard1, i );
     }
     else
@@ -283,6 +298,12 @@ export class DraggableDirective implements AfterViewInit {
       {
         endTurn ( );
       }
+
+      var move = new Move ( );
+      move.target = this.cardData.CardID;
+      move.type = PlayType.play;
+      turnManager.add ( move );
+
       return r;
     }
   }
@@ -293,7 +314,7 @@ export class DraggableDirective implements AfterViewInit {
     // return this.card.id.split ( "-" ) [ 1 ];
   }
 
-  moveCardById ( id:string, arrayFrom:Array<CardClass>, arrayTo:Array<CardClass>, insertIndex:number = -1 )
+  moveCardById ( id:number, arrayFrom:Array<CardClass>, arrayTo:Array<CardClass>, insertIndex:number = -1 )
   {
     for ( var i in arrayFrom )
     {

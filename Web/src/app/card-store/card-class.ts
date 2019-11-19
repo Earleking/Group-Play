@@ -12,7 +12,7 @@ class CardSelect {
 }
 
 export class CardClass {
-    public CardID:string;
+    public CardID:number;
     public CardCode:string;
     public Width:number;
     public Height:number;
