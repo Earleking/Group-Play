@@ -192,7 +192,7 @@ export class DraggableDirective implements AfterViewInit {
     var move = new Move ( );
     move.target = this.cardData.CardID;
     move.type = PlayType.play;
-    turnManager.add ( move );
+    this.turnService.logMove ( move );
 
     return this.moveCardById ( id, this.store.cardInHand1, this.store.cardOnBench1 );
   }
@@ -243,7 +243,7 @@ export class DraggableDirective implements AfterViewInit {
     move.target = this.cardData.CardID;
     move.refCard = this.store.cardOnBoard1 [ i ].CardID;
     move.type = PlayType.challenge;
-    turnManager.add ( move );
+    this.turnService.logMove ( move );
     return this.moveCardById ( this.getCardId ( ), this.store.cardOnBench2, this.store.cardOnBoard2, i );
   }
 
@@ -278,7 +278,7 @@ export class DraggableDirective implements AfterViewInit {
       var move = new Move ( );
       move.target = this.cardData.CardID;
       move.type = PlayType.defend;
-      turnManager.add ( move );
+      this.turnService.logMove ( move );
 
       return this.moveCardById ( this.getCardId ( ), this.store.cardOnBench1, this.store.cardOnBoard1, i );
     }
@@ -302,7 +302,7 @@ export class DraggableDirective implements AfterViewInit {
       var move = new Move ( );
       move.target = this.cardData.CardID;
       move.type = PlayType.play;
-      turnManager.add ( move );
+      this.turnService.logMove ( move );
 
       return r;
     }

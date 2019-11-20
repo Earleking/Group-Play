@@ -149,8 +149,10 @@ function startGame ( callback = () => { } )
 
 function doMoves ( moves, callback = () => {} )
 {
+    console.log ( "starting a move" );
     if ( moves.length == 0 )
     {
+        console.log ( "last move" );
         callback ( );
         return;
     }
