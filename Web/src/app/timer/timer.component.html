@@ -1,2 +1,8 @@
-<h1>{{ turnTime }}s</h1>
-<button (click)="submitMove()" [disabled]="turnTime === 0">Submit Move!</button>
+<div class="timer">
+    <div class="button_cont">
+        <button class="button" (click)="submitMove()" [disabled]="turnTime === 0">
+            Submit Move 
+        </button>
+        <h1 class="countdown">{{ turnTime }}s</h1>
+    </div>
+</div>
