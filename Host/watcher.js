@@ -1,6 +1,12 @@
 // Will watch for turns and stuff
 var robot = require ( "robotjs" );
 
+const api = require ( "./api" );
+const control = require ( "./control" );
+const request = require ( "request" );
+
+var inProgress = false;
+
 const manaLocations = [
     {
         x: 1642,
@@ -165,14 +171,40 @@ function getStringDiff (a, b){
 
 function runWatcher ( )
 {
+    api.getRectangles ( ( data ) => {
+        if ( data != "ERROR" )
+        {
+            if ( data [ "GameState" ] == "Menus" )
+            {
+                inProgress = false;
+                control.startGame ( );
+            }
+            if ( data [ "GameState" ] == "InProgress" && inProgress == false )
+            {
+                inProgress = true;
+
+                request.post ( "http://localhost:5000/move", { json: { moves: [ ] } }, ( ) => { } );
+            }
+        }
+    } )
     // just loop forever... watching... for eternity...
-    setTimeout ( runWatcher, 200 );
+    setTimeout ( runWatcher, 5000 );
 }
 
 function getMouseColor ( )
 {
     var mouse = robot.getMousePos ( );
-    console.log ( robot.getPixelColor ( mouse.x, mouse.y ) );
+    console.log ( mouse );
+    // console.log ( robot.getPixelColor ( mouse.x, mouse.y ) );
 }
 
 getMouseColor ( );
+control.mulliganCard ( 79435592 );
+
+module.exports = {
+    getTurn: getTurn,
+    getAttackToken: getAttackToken,
+    getSpellMana: getSpellMana,
+    getMana: getMana,
+    runWatcher: runWatcher
+}

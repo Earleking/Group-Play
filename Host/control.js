@@ -44,6 +44,30 @@ function clickOnCard ( cardId, callback = ( ) => { } )
     });
 }
 
+function mulliganCard ( cardId, callback = () => { } )
+{
+    api.getRectangles ( ( data ) => {
+        if ( data == "ERROR" )
+        {
+            return;
+        }
+        for ( var card of data [ "Rectangles" ] )
+        {
+            if ( card [ "CardID" ] == cardId )
+            {
+                var screen = robot.getScreenSize ( );
+                var midX = card [ "TopLeftX" ] + ( card [ "Width" ] * .5 );
+                var y = screen.height - ( card [ "TopLeftY" ] - ( card [ "Height" ] + 75 ) );
+                console.log ( y );
+                robot.moveMouse ( midX, y );
+                setTimeout ( ( ) => {
+                    robot.mouseClick ( "left", false );
+                }, 200 );
+            }
+        }
+    })
+}
+
 function challengerCard ( theirCardId, ourCardId, callback = () => {} )
 {
     api.getRectangles ( ( data ) => {
@@ -199,5 +223,7 @@ module.exports = {
     setCardsToAttack: setCardsToAttack,
     playCard: playCard,
     challengerCard: challengerCard,
-    doMoves: doMoves
+    doMoves: doMoves,
+    startGame: startGame,
+    mulliganCard: mulliganCard
 };

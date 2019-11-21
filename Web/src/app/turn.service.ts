@@ -37,9 +37,11 @@ export class TurnService {
 
   private submitMove() {
     if(this.log.length > 0) {
+      this.socketService.sendMove ( this.log );
       // temporarily represent move submission as just logging the move.
-      this.log;
+      console.log ( this.log );
     }
+    this.log = [ ];
     this.enableCanMove(); // temporarily do this here
   }
 }

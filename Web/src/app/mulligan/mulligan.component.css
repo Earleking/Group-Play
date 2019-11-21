@@ -1,6 +1,7 @@
 .mul-class {
     position: absolute;
-    height: 1080;
-    width: 1080;
-    
+    height: 1080px;
+    width: 1920px;
+    z-index: 100;
+    background-color: #00000061;
 }

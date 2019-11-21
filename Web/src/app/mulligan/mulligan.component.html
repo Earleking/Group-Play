@@ -1,3 +1,6 @@
 <div id="mulligan" class="mul-class">
-
+  <ul id="mulligan-list" class="mulligan-cards">
+    <!-- Each card -->
+    <app-card *ngFor="let card of this.store.mulligan" [cardData]=card></app-card>
+  </ul>
 </div>

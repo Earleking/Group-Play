@@ -35,6 +35,7 @@ export class CardClass {
     public IsTargetable: boolean;
     public IsChallenger: boolean = false;
     public Actions: CardSelect;
+    public IsMulligan: boolean = false;
 
     populateWithJson ( json ) {
         this.CardID = json [ "CardID" ];

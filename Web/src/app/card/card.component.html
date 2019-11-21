@@ -7,7 +7,7 @@
                 'left':   cardData.TopLeftX + 'px',
                 'top':   cardData.TopLeftY + 'px'}">
   <img  class="{{(cardData.CardType == 0)?'card-img-style':'spell-img-style'}} {{cardData.Outline}}"
-        src="assets/cards/{{cardData.CardCode}}.png"
+        src="assets/cards/{{cardData.CardCode}}{{(cardData.CardType == 0)?'':'-full'}}.png"
         draggable="false"
         (mouseover)="cardHovered ( $event )"
         (mouseout) ="cardUnHovered ( $event )" >

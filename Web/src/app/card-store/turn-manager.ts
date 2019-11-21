@@ -4,7 +4,8 @@ export enum PlayType
     target, // target card - just click
     defend, // refCard is opponents and is used
     challenge, // refCard is yours and is used\
-    endTurn
+    endTurn,
+    mulligan
 }
 
 export class Move
