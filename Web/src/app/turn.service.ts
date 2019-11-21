@@ -7,7 +7,7 @@ import { PlayType, Move } from './card-store/turn-manager';
 })
 export class TurnService {
   count: number = 0; // DON'T QUESTION MY METHODS
-  private canMove: boolean = true;
+  private canMove: boolean = true; // Move into TurnManager as a global.
   private log: Array<Move> = []; // I'm assuming the moves are encoded as numbers, as detailed on card #15. Change if desired.
 
   constructor(private socketService: WebsocketService) { }
@@ -24,7 +24,7 @@ export class TurnService {
     this.canMove = false;
     this.submitMove();
   }
-  enableCanMove() {
+  enableCanMove() { // Move into Websocket -- when you receive move
     // Allow the player to move, and start up the timer again.
     this.canMove = true;
     this.count++; // TEMPORARY - JUST TO RESET THE TIMER UNTIL WE GET submitMove FINISHED
