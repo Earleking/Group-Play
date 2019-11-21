@@ -1,4 +1,4 @@
-import { CardClass } from './card-class';
+import { CardClass, CardTypes } from './card-class';
 import { stageConstants } from './stage-constants';
 import { gameState, GamePhase } from './game-state';
 
@@ -10,6 +10,7 @@ export class CardStore {
     public cardOnBoard1: Array<CardClass> = [];
     public cardOnBoard2: Array<CardClass> = [];
     public spells: Array<CardClass> = [];
+    public mulligan: Array<CardClass> = [];
 
     public clearStore() {
         this.cardInHand1 = [];
@@ -86,22 +87,40 @@ export function loadStore ( jsonData ) {
             cardObj.Draggable = false;
             if (cardY < boardHeight * .57) {
                 cardObj.Location = "spell";
+                cardObj.CardType = CardTypes.spell;
                 cardStore.spells.push(cardObj);
             }
             else if (cardY < boardHeight * .68) {
                 cardObj.Location = "battle";
                 // Whoa we are in combat
-                gameState.Phase = GamePhase.combat;
-                cardStore.cardOnBoard2.push(cardObj);
+                if ( cardObj.LocalPlayer == true )
+                {
+                    // LOL THIS IS MULLIGAN TIME
+                    cardStore.mulligan.push ( cardObj );
+                }
+                else
+                {
+                    gameState.Phase = GamePhase.combat;
+                    cardStore.cardOnBoard2.push(cardObj);
+                }
             }
             else {
                 cardObj.Location = "bench";
                 cardStore.cardOnBench2.push(cardObj);
             }
-
         }
     }
     if (0 == cardStore.cardOnBoard2.length) {
         configBattlePlayer();
+    }
+    if ( 0 != cardStore.mulligan.length )
+    {
+        var mulEle = document.getElementById ( "mulligan" );
+        mulEle.style.display = "block";
+    }
+    else
+    {
+        var mulEle = document.getElementById ( "mulligan" );
+        mulEle.style.display = "none";
     }
 }

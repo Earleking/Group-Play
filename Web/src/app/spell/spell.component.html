@@ -1,12 +1,12 @@
-<li class="card-style"
+<li class="spell-style"
     dragit
-    id="card-{{cardData.CardID}}"
+    id="spell-{{cardData.CardID}}"
     [cardData]='cardData'
     [ngStyle]="{'width':  cardData.Width + 'px',
                 'height': cardData.Height + 'px',
                 'left':   cardData.TopLeftX + 'px',
                 'top':   cardData.TopLeftY + 'px'}">
-  <img  class="{{(cardData.CardType == 0)?'card-img-style':'spell-img-style'}} {{cardData.Outline}}"
+  <img  class="spell-img-style"
         src="assets/cards/{{cardData.CardCode}}.png"
         draggable="false"
         (mouseover)="cardHovered ( $event )"

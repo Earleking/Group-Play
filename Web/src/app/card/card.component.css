@@ -6,6 +6,15 @@
     user-select: none;
 }
 
+.spell-img-style {
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    user-drag: none; 
+    user-select: none;
+    border-radius: 50%;
+}
+
 .card-style {
     display: inline-block;
     position: absolute;
@@ -13,4 +22,14 @@
 
 .card-style:hover {
     cursor: pointer;
+}
+
+.playable {
+    box-shadow: #00c2ff9c 0 0 17px;
+    background-color: #00c2ff9c;
+}
+
+.selectable {
+    box-shadow: #c98b069c 0 0 17px;
+    background-color: #c98b06ab;
 }

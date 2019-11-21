@@ -17,6 +17,9 @@ import { ArrowComponent } from './arrow/arrow.component';
 import { StreamComponent } from './stream/stream.component';
 import { CardDisplayComponent } from './card-display/card-display.component';
 import { TimerComponent } from './timer/timer.component';
+import { SpellsComponent } from './spells/spells.component';
+import { SpellComponent } from './spell/spell.component';
+import { MulliganComponent } from './mulligan/mulligan.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import { TimerComponent } from './timer/timer.component';
     ArrowComponent,
     StreamComponent,
     CardDisplayComponent,
-    TimerComponent
+    TimerComponent,
+    SpellsComponent,
+    SpellComponent,
+    MulliganComponent
   ],
   imports: [
     BrowserModule,

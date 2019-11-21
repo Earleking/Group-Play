@@ -38,7 +38,7 @@ export class TurnService {
   private submitMove() {
     if(this.log.length > 0) {
       // temporarily represent move submission as just logging the move.
-      console.log(this.log.pop());
+      this.log;
     }
     this.enableCanMove(); // temporarily do this here
   }

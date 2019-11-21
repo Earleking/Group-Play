@@ -19,7 +19,10 @@ app.use(express.json())
 app.post ( "/host", ( req, res ) => {
     for ( client of clients )
     {
-        client.emit ( "board", req.body );
+        if ( client.disconnected === false )
+        {
+            client.emit ( "board", req.body );
+        }
     }
     res.send ( "Got data" );
 });
