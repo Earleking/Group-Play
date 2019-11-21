@@ -96,6 +96,7 @@ export class DragService {
           && card.CardType === CardTypes.spell
           && card.ManaCost < gameState.Mana )
         {
+          console.log ( "moving spell" );
           return true;
         }
       default:

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostListener, AfterViewInit, Directive, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { CardStore, cardStore, configBattlePlayer } from '../card-store/card-store';
-import { CardClass, newArea, getBattleLaneSlot, getLocalCardByBattleSlot, getChallengerBattleLaneSlot } from '../card-store/card-class';
+import { CardClass, newArea, getBattleLaneSlot, getLocalCardByBattleSlot, getChallengerBattleLaneSlot, CardTypes } from '../card-store/card-class';
 import { stageConstants } from '../card-store/stage-constants';
 import { DragService } from '../drag.service';
 import { endTurn, turnManager, Move, PlayType } from '../card-store/turn-manager';
@@ -37,24 +37,10 @@ export class DraggableDirective implements AfterViewInit {
     this.curPosY = this.initY;
   }
 
-  @HostListener ( "click" )
-  clicked ( )
-  {
-    if ( this.cardData.Selectable == true )
-    {
-      var move = new Move ( );
-      move.target = this.cardData.CardID;
-      move.type = PlayType.target;
-      this.turnService.logMove ( move );
-      this.target.selectedTarget ( );
-      return;
-    }
-  }
-
   @HostListener ( "mousedown" )
   startDrag ( )
   {
-    if ( this.cardData.Selectable == true )
+    if ( this.cardData.Selectable == true || this.cardData.IsMulligan )
     {
       return;
     }
@@ -98,6 +84,15 @@ export class DraggableDirective implements AfterViewInit {
       this.target.selectedTarget ( );
       return;
     }
+    if ( this.cardData.IsMulligan == true )
+    {
+      console.log ( "mullign" );
+      var move = new Move ( );
+      move.target = this.cardData.CardID;
+      move.type = PlayType.mulligan;
+      this.turnService.logMove ( move );
+      return; 
+    }
     this.cardData.Dragged = false;
     if ( this.turnService.getCanMove() && this.cardRule.moveCard ( this.cardData) ) // check if move is legal here
     {
@@ -111,6 +106,18 @@ export class DraggableDirective implements AfterViewInit {
             // sometimes we can have actions that occur after summon
 
             // As this is not a sync function, we will call end turn somewhere inside here
+            this.checkForActions ( );
+          }
+          else
+          {
+            this.resetCard ( );
+          }
+        }
+        else if ( this.cardData.CardType == CardTypes.spell )
+        {
+          if ( this.playSpell ( ) )
+          {
+            this.finalizeMove ( );
             this.checkForActions ( );
           }
           else
@@ -175,6 +182,14 @@ export class DraggableDirective implements AfterViewInit {
     
   }
 
+  mulliganCard ( )
+  {
+    var move = new Move ( );
+    move.target = this.cardData.CardID;
+    move.type = PlayType.mulligan;
+    this.turnService.logMove ( move );
+  }
+
   finalizeMove ( )
   {
     this.resizeCard ( );
@@ -214,10 +229,28 @@ export class DraggableDirective implements AfterViewInit {
     return true;
   }
 
+  playSpell ( )
+  {
+    var id = this.getCardId ( );
+    this.cardData.Location = "spell";
+    this.cardData.TopLeftY = 0;
+    this.cardData.Height = stageConstants.spellCardSize.height;
+    this.cardData.Width = stageConstants.spellCardSize.width;
+
+    var move = new Move ( );
+    move.target = this.cardData.CardID;
+    move.type = PlayType.play;
+    this.turnService.logMove ( move );
+
+    return this.moveCardById ( id, this.store.cardInHand1, this.store.spells );
+
+  }
+
   moveToBench ( )
   {
     var id = this.getCardId ( );
     this.cardData.Location = "bench";
+    this.cardData.TopLeftY = 0;
 
     var move = new Move ( );
     move.target = this.cardData.CardID;

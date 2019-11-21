@@ -96,6 +96,7 @@ export function loadStore ( jsonData ) {
                 if ( cardObj.LocalPlayer == true )
                 {
                     // LOL THIS IS MULLIGAN TIME
+                    cardObj.IsMulligan = true;
                     cardStore.mulligan.push ( cardObj );
                 }
                 else

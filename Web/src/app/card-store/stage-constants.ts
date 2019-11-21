@@ -15,6 +15,11 @@ export class StageConstants
         height: 158
     };
 
+    public spellCardSize = {
+        width: 100,
+        height: 100
+    }
+
     public benchSize = {
         width: 1920,
         height: 158,

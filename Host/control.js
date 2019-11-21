@@ -44,6 +44,33 @@ function clickOnCard ( cardId, callback = ( ) => { } )
     });
 }
 
+function mulliganCard ( cardId, callback = () => { } )
+{
+    api.getRectangles ( ( data ) => {
+        if ( data == "ERROR" )
+        {
+            return;
+        }
+        for ( var card of data [ "Rectangles" ] )
+        {
+            if ( card [ "CardID" ] == cardId )
+            {
+                var screen = robot.getScreenSize ( );
+                var midX = card [ "TopLeftX" ] + ( card [ "Width" ] * .5 );
+                var y = screen.height - ( card [ "TopLeftY" ] - ( card [ "Height" ] + 75 ) );
+                console.log ( y );
+                robot.moveMouse ( midX, y );
+                setTimeout ( ( ) => {
+                    robot.mouseClick ( "left", false );
+                    setTimeout ( ( ) => {
+                        callback ( );
+                    }, 200 );
+                }, 200 );
+            }
+        }
+    })
+}
+
 function challengerCard ( theirCardId, ourCardId, callback = () => {} )
 {
     api.getRectangles ( ( data ) => {
@@ -147,13 +174,14 @@ function startGame ( callback = () => { } )
     }, 200 );
 }
 
-function doMoves ( moves, callback = () => {} )
+function doMoves ( moves, callback = () => { console.log ( "REEE" ); } )
 {
     console.log ( "starting a move" );
     if ( moves.length == 0 )
     {
         console.log ( "last move" );
         callback ( );
+        console.log ( "fuck me" );
         return;
     }
 
@@ -162,19 +190,29 @@ function doMoves ( moves, callback = () => {} )
     setTimeout ( ( ) => {
         switch (move [ "type" ]) {
             case 0:
-                playCard ( move [ "target" ], ( ) => { doMoves ( moves ); } );
+                console.log ( "Playing" ); 
+                playCard ( move [ "target" ], ( ) => { doMoves ( moves, callback ); } );
                 break;
             case 1:
-                clickOnCard ( move [ "target" ], ( ) => { doMoves ( moves ); } )
+                console.log ( "Targetiong" );
+                clickOnCard ( move [ "target" ], ( ) => { doMoves ( moves, callback ); } )
                 break;
             case 2:
-                challengerCard ( move [ "target" ], move [ "refCard" ], ( ) => { doMoves ( moves ) } );
+                console.log ( "defending" );
+                challengerCard ( move [ "target" ], move [ "refCard" ], ( ) => { doMoves ( moves, callback ) } );
                 break;
             case 3:
-                challengerCard ( move [ "target" ], move [ "refCard" ], ( ) => { doMoves ( moves ) } );
+                console.log ( "Challengeing" );
+                challengerCard ( move [ "target" ], move [ "refCard" ], ( ) => { doMoves ( moves, callback ) } );
                 break;
             case 4:
+                console.log ( "ending phase" );
                 clickPhaseButton ( );
+                break;
+            case 5:
+                console.log ( "mulliganing" );
+                mulliganCard ( move [ "target" ], ( ) => { doMoves ( moves, callback ) } );
+                break;
             default:
                 break;
         }
@@ -199,5 +237,7 @@ module.exports = {
     setCardsToAttack: setCardsToAttack,
     playCard: playCard,
     challengerCard: challengerCard,
-    doMoves: doMoves
+    doMoves: doMoves,
+    startGame: startGame,
+    mulliganCard: mulliganCard
 };
