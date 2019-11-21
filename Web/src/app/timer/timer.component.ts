@@ -9,6 +9,7 @@ import { TurnService } from '../turn.service';
 export class TimerComponent implements OnInit {
   turnTime: number = 10;
   private timer;
+  started = false;
 
   // I'm using a trigger from the TurnService as the cue to restart the timer
   // When you trigger enableCanMove in TurnService, it's the start of a new round of voting
@@ -26,6 +27,11 @@ export class TimerComponent implements OnInit {
 
   // Function to call to start the timer up again when new game state is received from server
   startTimer() {
+    if ( this.started == true )
+    {
+      return;
+    }
+    this.started = true;
     this.turnTime = 10;
     this.timer = setInterval(() => {
       this.turnTime--;
@@ -44,6 +50,7 @@ export class TimerComponent implements OnInit {
 
   // Function to be called when you want to stop the timer.
   clearTimer() {
+    this.started = false;
     clearInterval(this.timer);
     this.turnTime = 0;
     this.turnService.submitTurn();

@@ -17,27 +17,30 @@ var watcher = require ( "./watcher" );
 // app.use(bodyParser.json())
 app.use(express.json())
 
+function sendData ( )
+{
+    console.log ( "finished moves" );
+    setTimeout ( ( ) => {
+        api.getRectangles ( ( data ) => {
+            if ( data != "ERROR" )
+            {
+                console.log ( "posting data" );
+                var sendJson = {
+                    attackToken: watcher.getAttackToken ( ),
+                    mana: watcher.getMana ( ),
+                    spellMana: watcher.getSpellMana ( ),
+                    data: data
+                }
+                request.post ( "http://localhost:3000/host", { json: sendJson } );
+            }
+        } );
+    }, 1000 );
+}
+
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.post ( "/move", ( req, res ) => {
-    control.doMoves ( req.body [ "moves" ], ( ) => {
-        console.log ( "finished moves" );
-        setTimeout ( ( ) => {
-            api.getRectangles ( ( data ) => {
-                if ( data != "ERROR" )
-                {
-                    console.log ( "posting data" );
-                    var sendJson = {
-                        attackToken: watcher.getAttackToken ( ),
-                        mana: watcher.getMana ( ),
-                        spellMana: watcher.getSpellMana ( ),
-                        data: data
-                    }
-                    request.post ( "http://localhost:3000/host", { json: sendJson } );
-                }
-            } );
-        }, 1000 );
-    } );
+    control.doMoves ( req.body [ "moves" ], sendData );
     res.send ("recv");
 } );
 
@@ -78,6 +81,8 @@ app.get('/video', function(req, res) {
       res.writeHead(200, head)
       fs.createReadStream(path).pipe(res)
     }
-  })
+  });
+
+
 
 app.listen(port, () => { console.log(`Example app listening on port ${port}!`) } );

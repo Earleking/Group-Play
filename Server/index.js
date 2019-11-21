@@ -25,6 +25,7 @@ app.post ( "/host", ( req, res ) => {
         if ( client.disconnected === false )
         {
             client.emit ( "board", req.body );
+            readyNextMove ( );
         }
     }
     res.send ( "Got data" );
@@ -40,7 +41,6 @@ io.on('connection', (socket) => {
     }
     clients.push ( socket );
     socket.on ( "submit", ( data ) => {
-        console.log ( data );
         try {
             moves.push ( JSON.parse ( data ) );
         } catch (error) {
@@ -49,8 +49,17 @@ io.on('connection', (socket) => {
     });
 });
 
+function readyNextMove ( )
+{
+    setTimeout ( ( ) => {
+        aggregateMoves ( );
+        moves = [ ];
+    }, 12000)
+}
+
 function aggregateMoves ( ) 
 {
+    console.log ( "agregattiong moves" );
     var votes = {
 
     }
