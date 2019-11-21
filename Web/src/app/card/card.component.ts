@@ -6,6 +6,7 @@ import { DragService } from '../drag.service';
 import { endTurn, turnManager, Move, PlayType } from '../card-store/turn-manager';
 import { gameState } from '../card-store/game-state';
 import { TurnService } from '../turn.service';
+import { TargetService } from '../target.service';
 
 @Directive ( {selector: '[dragit]'} )
 export class DraggableDirective implements AfterViewInit {
@@ -21,7 +22,8 @@ export class DraggableDirective implements AfterViewInit {
 
   constructor ( private cd:ChangeDetectorRef,
                 private cardRule:DragService,
-                private turnService: TurnService, ) {
+                private turnService: TurnService,
+                private target:TargetService ) {
 
   }
 
@@ -35,9 +37,28 @@ export class DraggableDirective implements AfterViewInit {
     this.curPosY = this.initY;
   }
 
+  @HostListener ( "click" )
+  clicked ( )
+  {
+    if ( this.cardData.Selectable == true )
+    {
+      var move = new Move ( );
+      move.target = this.cardData.CardID;
+      move.type = PlayType.target;
+      this.turnService.logMove ( move );
+      this.target.selectedTarget ( );
+      return;
+    }
+  }
+
   @HostListener ( "mousedown" )
   startDrag ( )
   {
+    if ( this.cardData.Selectable == true )
+    {
+      return;
+    }
+
     this.initX = this.cardData.TopLeftX;
     this.initY = this.cardData.TopLeftY;
     this.curPosX = this.initX;
@@ -68,6 +89,15 @@ export class DraggableDirective implements AfterViewInit {
   @HostListener ( "mouseup" )
   endDrag ( )
   {
+    if ( this.cardData.Selectable == true )
+    {
+      var move = new Move ( );
+      move.target = this.cardData.CardID;
+      move.type = PlayType.target;
+      this.turnService.logMove ( move );
+      this.target.selectedTarget ( );
+      return;
+    }
     this.cardData.Dragged = false;
     if ( this.turnService.getCanMove() && this.cardRule.moveCard ( this.cardData) ) // check if move is legal here
     {
@@ -199,17 +229,7 @@ export class DraggableDirective implements AfterViewInit {
 
   checkForActions ( )
   {
-    if ( this.cardData.Actions )
-    {
-      for ( var i = 0; i < this.cardData.Actions.count; i ++ )
-      {
-        this.targetCharacter ( this.cardData.Actions.targets );  
-      }
-    }
-    else
-    {
-      endTurn ( );
-    }
+    this.target.setTargets ( this.cardData.Actions.targets );
   }
 
   targetCharacter ( targets:Array < string > )

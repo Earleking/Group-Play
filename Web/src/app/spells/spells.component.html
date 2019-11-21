@@ -1,0 +1,6 @@
+<div id="player-spell" class="player-spell">
+  <ul id="spell-list" class="bench-cards">
+    <!-- Each card -->
+    <app-card *ngFor="let card of this.store.spells" [cardData]=card></app-card>
+  </ul>
+</div>

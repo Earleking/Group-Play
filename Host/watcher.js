@@ -169,3 +169,10 @@ function runWatcher ( )
     setTimeout ( runWatcher, 200 );
 }
 
+function getMouseColor ( )
+{
+    var mouse = robot.getMousePos ( );
+    console.log ( robot.getPixelColor ( mouse.x, mouse.y ) );
+}
+
+getMouseColor ( );

@@ -7880,7 +7880,13 @@
     "subtype": "",
     "supertype": "",
     "type": "Unit",
-    "collectible": true
+    "collectible": true,
+    "action": {
+      "targets": [
+        "ally"
+      ],
+      "number": 1
+    }
   },
   {
     "associatedCards": [],

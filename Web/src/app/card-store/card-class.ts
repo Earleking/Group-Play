@@ -24,7 +24,7 @@ export class CardClass {
     public Dragged:boolean = false;
     public Draggable:boolean = true;
     public CardType:CardTypes = CardTypes.unit; 
-    public OutLine:number = 0; // an int representing what outline to have
+    public Outline:string = "playable"; // an int representing what outline to have
 
     // Ok this one is kinda weird and a hack
     // This is literally just for a card that you move to store state
@@ -47,7 +47,7 @@ export class CardClass {
         if ( this.LocalPlayer == true )
         {
             // Only look for more data on local players
-            // WE don't move their cards
+            // We don't move their cards
             var data = getCardDataByCode ( this.CardCode );
             if ( data )
             {

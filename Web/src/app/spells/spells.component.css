@@ -1,0 +1,13 @@
+.hand-cards {
+    list-style: none;
+}
+
+.player-spell {
+    width: 100%;
+    height: 100px;
+    left: 0;
+    top: 485px;
+    position: absolute;
+    transition: .3s;
+    border: 1px purple solid;
+}
