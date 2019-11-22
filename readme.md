@@ -137,7 +137,7 @@ The main components are:
 Main Services:
 - DragService: Defines the rules of dragging cards between the lanes of play.
 - TurnService: Coordinates the vote timer and blocks actions when voting is closed off. Also handles Socket.IO interaction with the voting server.
-- 
+- TargetService: Highlights targetable cards (allies or enemies) depending on what the player's action is.
 
   
 
