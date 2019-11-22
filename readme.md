@@ -224,7 +224,10 @@ We would like to continue developing this product, but we would like to see some
 
   
 
-We would also like to improve the UI a bit, since this was a hackathon we didn't really build this application with scale-ability in mind, so we have a lot of hardcoded values and because of that our UI only works on a couple sizes of screens. Given more time we would rebuild the site using proper web development practices.
+We would also like to improve the UI a bit - since this was a hackathon we didn't really build this application with scale-ability in mind, so we have a lot of hardcoded values and because of that our UI only works on a couple sizes of screens. Given more time we would rebuild the site using proper web development practices.
+
+Integrating Twitch chat and functionality would also make for a more complete social experience for players as well.
+
 
   
 
