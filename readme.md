@@ -109,7 +109,7 @@ The client endpoints we used were:
 
   
 
-The Server is responsible for handling communication between the web interface and the host. It also handles tallying up move 'votes'. The server is written in javascript and uses expressjs for the nice framework for routing requests.
+The Server is responsible for handling communication between the web interface and the host. It also handles tallying up move 'votes'. The server is written in javascript and uses expressjs for the nice framework for routing requests. The server is pretty lightweight, the main feature of it is allowing for the collection of moves from multiple web interfaces (Users) which it then translates into one move by selecting the most requested move. 
 
   
 
