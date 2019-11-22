@@ -1,4 +1,5 @@
 
+
 # Group Play
 
   
@@ -25,7 +26,8 @@ Every phase, players will use our interface on the website to provide the moves 
 
 We think that while words are great its just better to show you how it works, so we recorded ourselves playing a couple rounds through the web interface which you can view here.
 
-(AREK PUT FULL GAMEFLOW HERE)
+https://www.youtube.com/watch?v=XeNQYrPLOwQ&feature=youtu.be
+[![IMAGE ALT TEXT HERE](https://i.imgur.com/k3XVA7z.png)](https://www.youtube.com/watch?v=XeNQYrPLOwQ&feature=youtu.be)
 
   
 
