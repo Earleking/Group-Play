@@ -31,7 +31,8 @@ We think that while words are great its just better to show you how it works, so
 https://www.youtube.com/watch?v=XeNQYrPLOwQ&feature=youtu.be
 [![IMAGE ALT TEXT HERE](https://i.imgur.com/k3XVA7z.png)](https://www.youtube.com/watch?v=XeNQYrPLOwQ&feature=youtu.be)
 
-  
+Another gameplay video:
+https://www.youtube.com/watch?v=bI5QWVhJiR8&feature=youtu.be
 
 # General Architecture:
 
