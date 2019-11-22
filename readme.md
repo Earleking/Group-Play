@@ -168,13 +168,47 @@ The Server is responsible for handling communication between the web interface a
 
   
 
+  
+
 The web interface is responsible for allowing the player to make a move. we used Typescript + Angular + Nodejs because we were familiar with the technology and like to use components when building our web interfaces. Using Angular’s powerful templating engine and nice routing system made setting up the web interface so much easier.
+
+  
+
+## How it Looks
+
+This is what the web interface looks like, when you have the ability to play cards. Refer to the video that we posted above if you want to see a full gameflow.
+
+![alt-text](https://cdn.discordapp.com/attachments/641793696026853377/647256482454437898/unknown.png)
 
   
 
 ## How it Works
 
-(TODO)
+  
+
+There are a number of key components describing the view, and services to handle interactivity between them.
+
+The main components are:
+
+- Hand, Bench, and Battle components: Renders cards in the player's hand, in play, and on the battlefield respectively.
+
+- Card: Handles card render logic and behavior when dragged between lanes
+
+- Stream: Component that displays the stream in between rounds of voting.
+
+  
+
+Main Services:
+
+- DragService: Defines the rules of dragging cards between the lanes of play.
+
+- TurnService: Coordinates the vote timer and blocks actions when voting is closed off. Also handles Socket.IO interaction with the voting server.
+
+- TargetService: Highlights targetable cards (allies or enemies) depending on what the player's action is.
+
+  
+
+  
 
   
 
