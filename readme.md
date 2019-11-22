@@ -2,9 +2,8 @@
 
 Entry for the 2019 Riot Games Developer Challenge
 
-
 # Introduction
-Hello, this is our project, Group Play. We wanted to create a social experience where many players can come together and play the same game as a group. In this project we allow many users to perform inputs then take the most popular inputs and perform them on the master game. Players are able to access this experience from their browser by simply going to a web interface then dragging and dropping cards starting on the next turn. 
+Hello, this is our project, Group Play. We wanted to create a social experience where many players can come together and play the same game as a group. In this project we allow many users to perform inputs on a Legends Of Runeterra game, then take the most popular inputs and perform them on one game. Players are able to access this experience from their browser by simply going to a web interface then dragging and dropping cards when the next phase starts. 
 
 ## How it works
 
@@ -21,7 +20,7 @@ Web, Server, Host
 
 Web is responsible for allowing the player to make moves, Host is responsible for making the move in the game. Server is responsible for counting the most popular moves and handling communication between the host and the web interface. 
 
-an example workflow would be:
+an example gameflow would be:
 - new phase starts.
 - Host sends game state to server which then sends it to the web interface 
 - users make their move to play cards.
@@ -76,4 +75,3 @@ Overall we had a lot of fun making this system, we think with some more work and
 Thank you for taking the time to look through our project!
 
 ![alt-text](https://vignette.wikia.nocookie.net/leagueoflegends/images/a/ae/Joy_Pengu_Emote.png)
-
