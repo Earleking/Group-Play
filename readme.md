@@ -12,7 +12,7 @@ Entry for the 2019 Riot Games Developer Challenge
 
 Hello, this is our project, Group Play. We wanted to create a social experience where many players can come together and play the same game as a group. In this project we allow many users to perform inputs on a Legends Of Runeterra game, then take the most popular inputs and perform them on one game. Players are able to access this experience from their browser by simply going to a web interface then dragging and dropping cards when the next phase starts.
 
-  
+We think that something like this could be a really interesting thing at many LoR events. There could be something where many audience members could play against the winner of a tournament. This could be hosted online where twitch can play against pro players. Most importantly we can see if Reddit is as [smart](https://vignette.wikia.nocookie.net/leagueoflegends/images/f/f1/Ryze_OriginalLoading_Anniversary.jpg/revision/latest/top-crop/width/240/height/240?cb=20191022125043) as they think they are. 
 
 ## How it works
 
