@@ -20,7 +20,9 @@ Hello, this is our project, Group Play. We wanted to create a social experience 
 
 Every phase, players will use our interface on the website to provide the moves that they would like to make, after 10 seconds all players moves will be tallied up and the most popular move will be made. This continues until the game wins or loses.
 
-  
+When the player is able to make a move, our own rendition of the game is presented. This is gamestate is determined using a combination of the Rectangles LoR Endpoint and what a group member called Constrained Semantic Segmentation. AKA we take a pixel on the screen a look at its color. This is used for a variety of things such as determine if it's the players move, how much mana and spell mana a player has, as well as if you have an attack token. The rectangles endpoint is used to determine where the cards are on the board. The combination of these is used to display an interactive game state through which a player is able to make moves.
+
+When the player is unable to make a move, the stream of the actual game client is shown instead. This shows the real-time (or close to it) game screen and allows the players to see the results of their cumulative moves. 
 
 ### Gameflow Example
 
@@ -226,7 +228,9 @@ We would like to continue developing this product, but we would like to see some
 
   
 
-We would also like to improve the UI a bit - since this was a hackathon we didn't really build this application with scale-ability in mind, so we have a lot of hardcoded values and because of that our UI only works on a couple sizes of screens. Given more time we would rebuild the site using proper web development practices.
+We would also like to improve the UI a bit - since this was a hackathon we didn't really build this application with scale-ability in mind, so we have a lot of hardcoded values and because of that our UI only works on a couple sizes of screens. Given more time we would rebuild the site using proper web development practices. We also used a static image for the background of our website, in the future making this more dynamic would be ideal. 
+
+Given the chance of more time (and having an artist in our team, not just programmers) we would have loved to improve the art in interaction phase. During this phase the card is simply resized, we don't render hp or attack partiallity because we don't have any assets to do that. In the future we think that this would be a valuable addition to such a project. 
 
 Integrating Twitch chat and functionality would also make for a more complete social experience for players as well.
 
