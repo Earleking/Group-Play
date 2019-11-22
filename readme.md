@@ -4,14 +4,14 @@ Entry for the 2019 Riot Games Developer Challenge
 
 
 # Introduction
-Hello, this is our project, Group Play. The goal of this project was to allow multiple players to democratically decide how to play a given game of Legends Of Runeterra. 
+Hello, this is our project, Group Play. We wanted to create a social experience where many players can come together and play the same game as a group. In this project we allow many users to perform inputs then take the most popular inputs and perform them on the master game. Players are able to access this experience from their browser by simply going to a web interface then dragging and dropping cards starting on the next turn. 
 
 ## How it works
 
 Every phase, players will use our interface on the website to provide the moves that they would like to make, after 10 seconds all players moves will be tallied up and the most popular move will be made. This continues until the game wins or loses. 
 
 ### Gameflow Example
-Here you can see how a phase would look for a user
+We think that while words are great its just better to show you how it works, so we recorded ourselves playing a couple rounds through the web interface which you can view here.
 (AREK PUT FULL GAMEFLOW HERE)
 
 # General Architecture:
@@ -43,7 +43,7 @@ The host is written in javascript with electron for displaying a small UI and Ro
 This is a stub message (TODO).
 
 ### Streaming
-We currently stream the game from the host machine to twitch using OBS.
+We currently stream the game from the host machine to twitch using OBS. The host machine also sends the stream back to the web interface so that the user can see what is going on while they are making their move. This makes it so that the user doesn't always have to switch between tabs. 
 
 ### Endpoints Used
 The client endpoints we used were:
@@ -63,10 +63,12 @@ The Server is responsible for handling communication between the web interface a
 The web interface is responsible for allowing the player to make a move. we used Typescript + Angular + Nodejs because we were familiar with the technology and like to use components when building our web interfaces.  Using Angular’s powerful templating engine and nice routing system made setting up the web interface so much easier. 
 
 # Future Plans
-We would like to continue developing this product, but we would like to see some more data exposed about game state from the client. Currently we use a lot of 'tricks' to get certain values about the game state. If Group Play were to become a fully released product we would need these endpoints to make sure that the product is stable.
+We would like to continue developing this product, but we would like to see some more data exposed about game state from the client. Currently we use a lot of 'tricks' to get certain values about the game state like mana and HP. If Group Play were to become a fully released product we would need the endpoints provide that information to make sure that the product is stable.
+
+We would also like to improve the UI a bit, since this was a hackathon we didn't really build this application with scale-ability in mind, so we have a lot of hardcoded values and because of that our UI only works on a couple sizes of screens. Given more time we would rebuild the site using proper web development practices. 
 
 # Conclusion
-Overall we had a lot of fun making this system, we think with some more work and polishing it could be the next 'Twitch Plays Pokemon'. We think that this project is something that could bring many players together to play the game in new and exciting ways. 
+Overall we had a lot of fun making this system, we think with some more work and polishing it could be the next 'Twitch Plays Pokemon'.  We think that this project is something that could bring many players together to play the game in new and exciting ways. 
 
 Thank you for taking the time to look through our project!
 
