@@ -17,13 +17,13 @@ Here you can see how a phase would look for a user
 # General Architecture:
 We use a three layer system for our architecture:
 Web, Server, Host
-![alt-text]([img]https://i.imgur.com/n45R27Q.png[/img])
+![alt-text](https://i.imgur.com/n45R27Q.png)
 
 Web is responsible for allowing the player to make moves, Host is responsible for making the move in the game. Server is responsible for counting the most popular moves and handling communication between the host and the web interface. 
 
 an example workflow would be:
 - new phase starts.
-- Host sends gamestate to server which then sends it to the web interface 
+- Host sends game state to server which then sends it to the web interface 
 - users make their move to play cards.
 - Server tallies up the move requests and selects the move popular one.
 - Server sends the selected move to the host.
@@ -70,4 +70,5 @@ Overall we had a lot of fun making this system, we think with some more work and
 
 Thank you for taking the time to look through our project!
 
-![alt-text](https://ih0.redbubble.net/image.500108670.8521/aps,840x830,small,transparent-pad,1000x1000,f8f8f8.jpg)
+![alt-text](https://vignette.wikia.nocookie.net/leagueoflegends/images/a/ae/Joy_Pengu_Emote.png)
+
