@@ -39,17 +39,23 @@ Web-client, Server, Host
 
   
 
-Web is responsible for allowing the player to make moves, Host is responsible for making the move in the game. Server is responsible for counting the most popular moves and handling communication between the host and the web interface.
+  
+
+The web interface provides a similar UI to the game where players can make their moves in every round of voting. The server aggregates these moves and forwards the most popular choice to the host which then plays it. The host sends the new game state back to the server which routes this back to the players.
 
   
 
-an example gameflow would be:
+  
 
-- new phase starts.
+  
 
-- Host sends game state to server which then sends it to the web interface
+An example workflow would be:
 
-- users make their move to play cards.
+- New voting phase starts.
+
+- Host sends game state to server which then sends it to the web interface.
+
+- Users make their move to play cards.
 
 - Server tallies up the move requests and selects the move popular one.
 
@@ -150,11 +156,11 @@ We currently stream the game from the host machine to twitch using OBS. The web 
 
 ![alt-text](https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/square_256/nodejslogo.png) ![alt-text](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1FFAoeYsy1wUOKh1BrSQhwtnmyv6ZEV4BkROjwT2aiYoiDYX90g&s)
 
+  ![alt-text](https://i.udemycdn.com/course/240x135/1934362_ca3c.jpg)
+
 ![alt-text](https://buttercms.com/static/images/tech_banners/ExpressJS.png)
 
-  
-
-The Server is responsible for handling communication between the web interface and the host. It also handles tallying up move 'votes'. The server is written in javascript and uses expressjs for the nice framework for routing requests.
+The server is an intermediary for communication between the web interface and the host. Its purpose is to aggregate input from the players to determine the next move for the host to make, and to send the resulting game state back to the players. Development was done in JavaScript, using Express.js which offers a clean framework for API construction. It also utilizes the powerful Socket.IO library to maintain connections with multiple web clients and push back the updated game state in real-time.
 
   
 
