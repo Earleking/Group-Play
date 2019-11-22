@@ -41,23 +41,20 @@ Web, Server, Host
 
   
 
-Web is responsible for allowing the player to make moves, Host is responsible for making the move in the game. Server is responsible for counting the most popular moves and handling communication between the host and the web interface.
+The web interface provides a similar UI to the game where players can make their moves in every round of voting. The server aggregates these moves and forwards the most popular choice to the host which then plays it. The host sends the new game state back to the server which routes this back to the players.
 
   
 
-an example workflow would be:
+  
 
-- new phase starts.
-
-- Host sends game state to server which then sends it to the web interface
-
-- users make their move to play cards.
-
+An example workflow would be:
+- New voting phase starts.
+- Host sends game state to server which then sends it to the web interface.
+- Users make their move to play cards.
 - Server tallies up the move requests and selects the move popular one.
-
 - Server sends the selected move to the host.
-
 - Host makes the move.
+  
 
   
 
