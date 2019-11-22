@@ -154,9 +154,9 @@ We currently stream the game from the host machine to twitch using OBS. The web 
 
 ### Technologies
 
+![alt-text](https://i.udemycdn.com/course/240x135/1934362_ca3c.jpg)
 ![alt-text](https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/square_256/nodejslogo.png) ![alt-text](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1FFAoeYsy1wUOKh1BrSQhwtnmyv6ZEV4BkROjwT2aiYoiDYX90g&s)
 
-  ![alt-text](https://i.udemycdn.com/course/240x135/1934362_ca3c.jpg)
 
 ![alt-text](https://buttercms.com/static/images/tech_banners/ExpressJS.png)
 
