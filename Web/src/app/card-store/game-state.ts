@@ -18,6 +18,7 @@ export class GameState
     public InternalPhase = GameStatePhase.default;
     public AttackToken = true;
     public IsChallenging = false;
+    public IsTurn = true;
 }
 
 export const gameState = new GameState ( );

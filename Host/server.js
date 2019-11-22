@@ -20,6 +20,19 @@ app.use(express.json())
 function sendData ( )
 {
     console.log ( "finished moves" );
+    if ( watcher.getTurn ( ) == true )
+    {
+        sendRectInfo ( );
+    }
+    else
+    {
+        sendRectInfo ( );
+        watcher.doOnMyTurn ( sendRectInfo );
+    }
+}
+
+function sendRectInfo ( )
+{
     setTimeout ( ( ) => {
         api.getRectangles ( ( data ) => {
             if ( data != "ERROR" )
@@ -29,18 +42,36 @@ function sendData ( )
                     attackToken: watcher.getAttackToken ( ),
                     mana: watcher.getMana ( ),
                     spellMana: watcher.getSpellMana ( ),
+                    turn: watcher.getTurn ( ),
                     data: data
                 }
                 request.post ( "http://localhost:3000/host", { json: sendJson } );
             }
         } );
-    }, 1000 );
+    }, 1500 );
+}
+
+function sendTurnEnded ( )
+{
+
 }
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.post ( "/move", ( req, res ) => {
-    control.doMoves ( req.body [ "moves" ], sendData );
+    var moves = req.body [ "moves" ];
+    if ( moves.length > 0 )
+    {
+        if ( moves [ 0 ] [ "type" ] == 5 )
+        {
+            moves.push ( {
+                target: 0,
+                refCard: 0,
+                type: 4
+            } );
+        }
+    }
+    control.doMoves ( moves , sendData );
     res.send ("recv");
 } );
 

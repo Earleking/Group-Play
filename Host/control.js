@@ -81,6 +81,7 @@ function challengerCard ( theirCardId, ourCardId, callback = () => {} )
         data = JSON.parse ( JSON.stringify ( data ) );
         var c1;
         var c2;
+        console.log ( ourCardId );
         for ( var card of data [ "Rectangles" ] )
         {
             console.log ( card [ "CardID"] );
@@ -99,8 +100,15 @@ function challengerCard ( theirCardId, ourCardId, callback = () => {} )
             }
         }
         console.log ( "moving card" );
-        console.log ( c1 );
-        console.log ( c2 );
+        if ( c1 == undefined || c2 == undefined )
+        {
+            // This is probably bad and can trap us in an infinite loop. 
+            setTimeout ( ( ) => {
+                console.log ( "card was undef. Retrying" );
+                challengerCard ( theirCardId, ourCardId, callback );
+            }, 1000 );
+            return;
+        }
         var screen = robot.getScreenSize ( );
         var c1Height = c1 [ "Height" ];
         var c1Width = c1 [ "Width" ];
@@ -176,15 +184,16 @@ function startGame ( callback = () => { } )
 
 function doMoves ( moves, callback = () => { console.log ( "REEE" ); } )
 {
-    console.log ( "starting a move" );
     if ( moves.length == 0 )
     {
         console.log ( "last move" );
-        callback ( );
-        console.log ( "fuck me" );
+        setTimeout ( ( ) => {
+            callback ( );
+        }, 1000 );
         return;
     }
-
+    
+    console.log ( "starting a move" );
     var move = moves.splice ( 0, 1 ) [ 0 ];
     
     setTimeout ( ( ) => {
@@ -207,7 +216,7 @@ function doMoves ( moves, callback = () => { console.log ( "REEE" ); } )
                 break;
             case 4:
                 console.log ( "ending phase" );
-                clickPhaseButton ( );
+                clickPhaseButton ( ( ) => { doMoves ( moves, callback ) } );
                 break;
             case 5:
                 console.log ( "mulliganing" );

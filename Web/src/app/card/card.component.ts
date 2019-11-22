@@ -4,7 +4,7 @@ import { CardClass, newArea, getBattleLaneSlot, getLocalCardByBattleSlot, getCha
 import { stageConstants } from '../card-store/stage-constants';
 import { DragService } from '../drag.service';
 import { endTurn, turnManager, Move, PlayType } from '../card-store/turn-manager';
-import { gameState } from '../card-store/game-state';
+import { gameState, GameState } from '../card-store/game-state';
 import { TurnService } from '../turn.service';
 import { TargetService } from '../target.service';
 
@@ -330,6 +330,7 @@ export class DraggableDirective implements AfterViewInit {
 
       var move = new Move ( );
       move.target = this.cardData.CardID;
+      move.refCard = this.store.cardOnBoard2 [ i ].CardID;
       move.type = PlayType.defend;
       this.turnService.logMove ( move );
 
@@ -396,7 +397,7 @@ export class DraggableDirective implements AfterViewInit {
 export class CardComponent implements AfterViewInit {
   @Input() cardData:CardClass;
   card:HTMLElement;
-
+  state:GameState = gameState;
   constructor() { 
   }
   

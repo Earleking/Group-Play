@@ -33,3 +33,7 @@
     box-shadow: #c98b069c 0 0 17px;
     background-color: #c98b06ab;
 }
+
+.hidden {
+    display: none;
+}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GameState, gameState } from '../card-store/game-state';
 
 @Component({
   selector: 'app-stream',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./stream.component.css']
 })
 export class StreamComponent implements OnInit {
-
+  state:GameState = gameState;
   constructor() { }
 
   ngOnInit() {

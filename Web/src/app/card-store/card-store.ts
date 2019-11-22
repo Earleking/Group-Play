@@ -20,11 +20,21 @@ export class CardStore {
         this.cardOnBoard1 = [];
         this.cardOnBoard2 = [];
         this.spells = [];
+        this.mulligan = [ ];
     }
 }
 
 export const cardStore = new CardStore();
 
+
+function configBattleEnemy ( )
+{
+    cardStore.cardOnBoard2.sort ( ( a, b ) => { return a.TopLeftY - b.TopLeftY } );
+    for ( var i in cardStore.cardOnBoard2 )
+    {
+        cardStore.cardOnBoard2 [ i ].BattleLocation = Number ( i );
+    }
+}
 
 export function configBattlePlayer() {
     var cardWidth = stageConstants.battleCardSize.width + 5;
@@ -77,6 +87,11 @@ export function loadStore ( jsonData ) {
         }
         else if (cardY < boardHeight * .37) {
             cardObj.Location = "bench";
+            if ( gameState.AttackToken )
+            {
+                cardObj.Draggable = true;
+                cardObj.Outline = "playable";
+            }
             cardStore.cardOnBench1.push(cardObj);
         }
         else if (cardY < boardHeight * .46) {
@@ -90,7 +105,7 @@ export function loadStore ( jsonData ) {
                 cardObj.CardType = CardTypes.spell;
                 cardStore.spells.push(cardObj);
             }
-            else if (cardY < boardHeight * .68) {
+            else if (cardY < boardHeight * .75) {
                 cardObj.Location = "battle";
                 // Whoa we are in combat
                 if ( cardObj.LocalPlayer == true )
@@ -111,8 +126,20 @@ export function loadStore ( jsonData ) {
             }
         }
     }
+    console.log ( "*********" );
     if (0 == cardStore.cardOnBoard2.length) {
         configBattlePlayer();
+    }
+    else
+    {
+        configBattleEnemy ( );
+        console.log ( "Looking through bench" );
+        for ( var tCard of cardStore.cardOnBench1 )
+        {
+            // Whoa we are defending
+            tCard.Draggable = true;
+            tCard.Outline = "playable";
+        }
     }
     if ( 0 != cardStore.mulligan.length )
     {

@@ -1,8 +1,11 @@
 <div class="timer">
     <div class="button_cont">
-        <button class="button" (click)="submitMove()" [disabled]="turnTime === 0">
+        <button class="button button-submit {{(state.IsTurn==false)?'muted':''}}" (click)="submitMove()" [disabled]="turnTime === 0">
             Submit Move 
         </button>
-        <h1 class="countdown">{{ turnTime }}s</h1>
+        <button class="button button-end {{(state.IsTurn==false)?'muted':''}}" (click)="submitEndTurn()" [disabled]="turnTime === 0">
+            End Turn
+        </button>
     </div>
+    <h1 class="countdown">{{ turnTime }}s</h1>
 </div>

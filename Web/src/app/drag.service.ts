@@ -34,11 +34,13 @@ export class DragService {
     switch ( newSection ) {
       case "bench":
         // Card in hand, not a spell, putting on bench
+        console.log ( "trying to play card" );
+        console.log ( card );
         if ( card.Location === "hand"
-          && card.ManaCost < gameState.Mana
+          && card.ManaCost <= gameState.Mana
           && card.CardType != CardTypes.spell
-          && cardStore.cardOnBench1.length < this.LANE_CAPACITY 
-          && gameState.Phase === GamePhase.default ) {
+          && cardStore.cardOnBench1.length < this.LANE_CAPACITY ) {
+          console.log ( "can move" );
           return true;
         }
         break;
@@ -94,7 +96,7 @@ export class DragService {
       case "spell":
         if ( card.Location == "hand"
           && card.CardType === CardTypes.spell
-          && card.ManaCost < gameState.Mana )
+          && card.ManaCost <= gameState.Mana )
         {
           console.log ( "moving spell" );
           return true;

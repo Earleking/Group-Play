@@ -5,18 +5,14 @@ import { PlayType, Move } from './card-store/turn-manager';
 import * as io from 'socket.io-client';
 import { TargetService } from './target.service';
 import { loadStore } from './card-store/card-store';
+import { gameState } from './card-store/game-state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TurnService {
-<<<<<<< HEAD
   count: number = 0; // DON'T QUESTION MY METHODS
   private canMove: boolean = true; // Move into TurnManager as a global.
-=======
-  count: number; // DON'T QUESTION MY METHODS
-  private canMove: boolean = true;
->>>>>>> 49f1d380aeadd9026c14988ff373db1cd9f1b19b
   private log: Array<Move> = []; // I'm assuming the moves are encoded as numbers, as detailed on card #15. Change if desired.
   private webUrl: string = "http://localhost:3000";
   private socket;
@@ -29,7 +25,14 @@ export class TurnService {
       target.reset ( );
       console.log ( "got data" );
       console.log ( data );
-      this.enableCanMove(); // temporarily do this here
+      gameState.Mana = data [ "mana" ];
+      gameState.SpellMana = data [ "spellMana" ];
+      gameState.AttackToken = data [ "attackToken" ];
+      gameState.IsTurn = data [ "turn" ];
+      if ( gameState.IsTurn == true )
+      {
+        this.enableCanMove(); // temporarily do this here
+      }
 
       loadStore ( data.data );
     } );
@@ -66,11 +69,9 @@ export class TurnService {
   }
 
   private submitMove() {
-    if(this.log.length > 0) {
-      this.sendMove ( this.log );
-      // temporarily represent move submission as just logging the move.
-      console.log ( this.log );
-    }
+    this.sendMove ( this.log );
+    // temporarily represent move submission as just logging the move.
+    console.log ( this.log );
     this.log = [ ];
   }
 

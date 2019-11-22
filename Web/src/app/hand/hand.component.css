@@ -9,7 +9,7 @@
     top: 0;
     position: absolute;
     transition: .3s;
-    border: 1px blue solid;
+    /* border: 1px blue solid; */
 }
 
 .player-1-hand {

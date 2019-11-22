@@ -6,7 +6,7 @@
                 'height': cardData.Height + 'px',
                 'left':   cardData.TopLeftX + 'px',
                 'top':   cardData.TopLeftY + 'px'}">
-  <img  class="{{(cardData.CardType == 0)?'card-img-style':'spell-img-style'}} {{cardData.Outline}}"
+  <img  class="{{(cardData.CardType == 0)?'card-img-style':'spell-img-style'}} {{cardData.Outline}} {{(state.IsTurn == true)?'':'hidden'}}"
         src="assets/cards/{{cardData.CardCode}}{{(cardData.CardType == 0)?'':'-full'}}.png"
         draggable="false"
         (mouseover)="cardHovered ( $event )"

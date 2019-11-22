@@ -72,8 +72,9 @@ function getTurn ( )
         y: 493
     }
     var s1 = "2745d7";
+    var s3 = "3df138";
     var s2 = robot.getPixelColor ( turnLocation.x, turnLocation.y );
-    if ( getStringDiff ( s1, s2 ) < 4 )
+    if ( getStringDiff ( s1, s2 ) < 4 || getStringDiff ( s3, s2 ) < 4 )
     {
         return true;
     }
@@ -110,7 +111,6 @@ function getSpellMana ( )
             break;
         }
     }
-    console.log ( `You have ${mana} spell mana` );
     return mana;
 }
 
@@ -131,7 +131,6 @@ function getMana ( )
             break;
         }
     }
-    console.log ( `You have ${mana} mana` );
     return mana;
 }
 
@@ -191,20 +190,38 @@ function runWatcher ( )
     setTimeout ( runWatcher, 5000 );
 }
 
+function doOnMyTurn ( callback = () => { } )
+{
+    console.log ( "Wating for my turn" );
+    setTimeout ( ( ) => {
+        if ( getTurn ( ) == true )
+        {
+            console.log ( "IS MY TURN" );
+            callback ( );
+        }
+        else
+        {
+            doOnMyTurn ( callback );
+        }
+    }, 2000 );
+}
+
 function getMouseColor ( )
 {
     var mouse = robot.getMousePos ( );
     console.log ( mouse );
-    // console.log ( robot.getPixelColor ( mouse.x, mouse.y ) );
+    console.log ( robot.getPixelColor ( mouse.x, mouse.y ) );
 }
 
-getMouseColor ( );
-control.mulliganCard ( 79435592 );
+// getMouseColor ( );
+console.log ( getTurn ( ) );
+// control.mulliganCard ( 79435592 );
 
 module.exports = {
     getTurn: getTurn,
     getAttackToken: getAttackToken,
     getSpellMana: getSpellMana,
     getMana: getMana,
-    runWatcher: runWatcher
+    runWatcher: runWatcher,
+    doOnMyTurn: doOnMyTurn
 }

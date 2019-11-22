@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TurnService } from '../turn.service';
+import { Move, PlayType } from '../card-store/turn-manager';
+import { GameState, gameState } from '../card-store/game-state';
 
 @Component({
   selector: 'app-timer',
@@ -10,6 +12,7 @@ export class TimerComponent implements OnInit {
   turnTime: number = 10;
   private timer;
   started = false;
+  state:GameState = gameState;
 
   // I'm using a trigger from the TurnService as the cue to restart the timer
   // When you trigger enableCanMove in TurnService, it's the start of a new round of voting
@@ -48,8 +51,17 @@ export class TimerComponent implements OnInit {
     this.clearTimer();
   }
 
+  submitEndTurn ( )
+  {
+    var move = new Move ( );
+    move.type = PlayType.endTurn;
+    this.turnService.logMove ( move );
+    this.clearTimer ( );
+  }
+
   // Function to be called when you want to stop the timer.
   clearTimer() {
+    this.state.IsTurn = false;
     this.started = false;
     clearInterval(this.timer);
     this.turnTime = 0;

@@ -25,8 +25,11 @@ app.post ( "/host", ( req, res ) => {
         if ( client.disconnected === false )
         {
             client.emit ( "board", req.body );
-            readyNextMove ( );
         }
+    }
+    if ( req.body [ "turn" ] == true )
+    {
+        readyNextMove ( );
     }
     res.send ( "Got data" );
 });
@@ -68,34 +71,38 @@ function aggregateMoves ( )
     var mostVotes = 0;
     for ( var move of moves )
     {
-        if ( move.length == 0 )
+        if ( move.length != 0 & move [ 0 ] != undefined )
         {
-            continue;
-        }
-        
-        cardId = move [ 0 ] [ "CardID" ];
-        if ( votes [ cardId ] )
-        {
-            votes [ cardId ] += 0;
-        }
-        else
-        {
-            votes [ cardId ] = 1;
-        }
-        if ( votes [ cardId ] > mostVotes )
-        {
-            mostVotes = votes [ cardId ];
-            bestCardId = cardId;
-        }
+            cardId = move [ 0 ] [ "CardID" ];
+            if ( votes [ cardId ] )
+            {
+                votes [ cardId ] += 0;
+            }
+            else
+            {
+                votes [ cardId ] = 1;
+            }
+            if ( votes [ cardId ] > mostVotes )
+            {
+                mostVotes = votes [ cardId ];
+                bestCardId = cardId;
+            }
+        }   
     }
     for ( var move of moves )
     {
-        if ( move [ 0 ] [ "CardId" ] == bestCardId )
+        if ( move.length != 0 & move [ 0 ] != undefined )
         {
-            request.post ( "http://localhost:5000/move", { json: { moves: move } }, ( ) => { } );
-            return;
+            if ( move [ 0 ] [ "CardId" ] == bestCardId )
+            {
+                request.post ( "http://localhost:5000/move", { json: { moves: move } }, ( ) => { } );
+                return;
+            }
         }
     }
+    // Worst case I guess try and end turn
+    request.post ( "http://localhost:5000/move", { json: { moves: [ { target: 0, refCard: 0, type: 4 }] } }, ( ) => { } );
+                return;
 }
 
 server.listen(port, () => {

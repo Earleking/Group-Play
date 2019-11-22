@@ -1,5 +1,6 @@
 import { stageConstants } from './stage-constants';
 import { cardStore } from './card-store';
+import { gameState } from './game-state';
 
 export enum CardTypes {
     unit,
@@ -52,11 +53,22 @@ export class CardClass {
             var data = getCardDataByCode ( this.CardCode );
             if ( data )
             {
+                this.ManaCost = data [ "cost" ];
                 switch ( data [ "type" ] ) {
                     case "Unit":
                         this.CardType == CardTypes.unit;
+                        if ( this.ManaCost > gameState.Mana )
+                        {
+                            this.Draggable = false;
+                            this.Outline = "";
+                        }
                         break;
                     case "Spell":
+                        if ( this.ManaCost > gameState.Mana + gameState.SpellMana )
+                        {
+                            this.Draggable = false;
+                            this.Outline = "";
+                        }
                         this.CardType = CardTypes.spell;
                         break;
                     default:
@@ -66,7 +78,6 @@ export class CardClass {
                 {
                     this.IsChallenger = true;
                 }
-                this.ManaCost = data [ "cost" ];
                 if ( data [ "action" ] )
                 {
                     var newSelector = new CardSelect ( );
@@ -243,8 +254,10 @@ export function getEnemyCardByBattleSlot ( slot:number )
             return card;
         }
     }
+    // worst case
+    return cardStore.cardOnBoard2 [ slot ];
     // this is a serious o fuck.
     // Should never hit here if everything else is going well
-    console.log ( "FUCK. Trying to find enemy card on battle that doesn't exist" );
-    return null;
+    // console.log ( "FUCK. Trying to find enemy card on battle that doesn't exist" );
+    // return null;
 }
