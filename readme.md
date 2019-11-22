@@ -62,13 +62,16 @@ The Server is responsible for handling communication between the web interface a
 
 The web interface is responsible for allowing the player to make a move. we used Typescript + Angular + Nodejs because we were familiar with the technology and like to use components when building our web interfaces.  Using Angular’s powerful templating engine and nice routing system made setting up the web interface so much easier. 
 
+## How it Works 
+(TODO)
+
 # Future Plans
 We would like to continue developing this product, but we would like to see some more data exposed about game state from the client. Currently we use a lot of 'tricks' to get certain values about the game state like mana and HP. If Group Play were to become a fully released product we would need the endpoints provide that information to make sure that the product is stable.
 
 We would also like to improve the UI a bit, since this was a hackathon we didn't really build this application with scale-ability in mind, so we have a lot of hardcoded values and because of that our UI only works on a couple sizes of screens. Given more time we would rebuild the site using proper web development practices. 
 
 # Conclusion
-Overall we had a lot of fun making this system, we think with some more work and polishing it could be the next 'Twitch Plays Pokemon'.  We think that this project is something that could bring many players together to play the game in new and exciting ways. 
+Overall we had a lot of fun making this system, we think with some more work and polishing it could be the next 'Twitch Plays Pokemon'.  One thing that we all would like to see would be for a big twitch streamer to play vs his or her chat using this project. We think that this project is something that could bring many players together to play the game in new and exciting ways. 
 
 Thank you for taking the time to look through our project!
 
